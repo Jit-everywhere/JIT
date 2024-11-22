@@ -1,0 +1,18 @@
+services:
+  mongodb:
+    image: 'mongo:latest'
+    environment:
+      - 'MONGO_INITDB_DATABASE=mydatabase'
+      - 'MONGO_INITDB_ROOT_PASSWORD=secret'
+      - 'MONGO_INITDB_ROOT_USERNAME=root'
+    ports:
+      - '27017'
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=jit_db'
+      - 'MYSQL_PASSWORD=SQL2024'
+      - 'MYSQL_ROOT_PASSWORD=SQL2024'
+      - 'MYSQL_USER=root'
+    ports:
+      - '3306'
