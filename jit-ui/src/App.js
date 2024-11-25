@@ -1,22 +1,13 @@
-import './App.css';
+import "./App.css";
+import ButtonComponent from "./components/common/Button/Button";
+import InputComponent from "./components/common/Input/Input";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* Sample */}
+      <InputComponent label={"Test"} sx={{ width: "20%" }} />
+      <ButtonComponent label={"Button"} />
     </div>
   );
 }
