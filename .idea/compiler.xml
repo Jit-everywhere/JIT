@@ -10,5 +10,8 @@
         <module name="jit.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="jit" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

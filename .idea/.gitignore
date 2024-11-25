@@ -1,3 +1,14 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+
+# Ignore IntelliJ IDEA project files
+.idea/
+
+# Ignore Gradle build directory
+jit/.gradle/
+
+# Ignore build output directory
+jit/build/
+
+
