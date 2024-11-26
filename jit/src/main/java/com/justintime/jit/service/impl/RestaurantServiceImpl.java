@@ -52,26 +52,26 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantRepository.delete(existingRestaurant);
     }
 
-    public List<String> findSimilarNames(String name) {
-        List<String> allNames = restaurantRepository.findAll().stream()
-                .map(Restaurant::getName)
-                .collect(Collectors.toList());
-
-        return allNames.stream()
-                .filter(existingName -> existingName.toLowerCase().contains(name.toLowerCase()))
-                .collect(Collectors.toList());
-    }
-
-    public String suggestCorrectName(String name) {
-        List<String> allNames = restaurantRepository.findAll().stream()
-                .map(Restaurant::getName)
-                .collect(Collectors.toList());
-
-        LevenshteinDistance distance = new LevenshteinDistance();
-
-        return allNames.stream()
-                .min(Comparator.comparingInt(existingName -> distance.apply(name.toLowerCase(), existingName.toLowerCase())))
-                .filter(existingName -> distance.apply(name.toLowerCase(), existingName.toLowerCase()) <= SUGGESTION_THRESHOLD)
-                .orElse(null);
-    }
+//    public List<String> findSimilarNames(String name) {
+//        List<String> allNames = restaurantRepository.findAll().stream()
+//                .map(Restaurant::getName)
+//                .collect(Collectors.toList());
+//
+//        return allNames.stream()
+//                .filter(existingName -> existingName.toLowerCase().contains(name.toLowerCase()))
+//                .collect(Collectors.toList());
+//    }
+//
+//    public String suggestCorrectName(String name) {
+//        List<String> allNames = restaurantRepository.findAll().stream()
+//                .map(Restaurant::getName)
+//                .collect(Collectors.toList());
+//
+//        LevenshteinDistance distance = new LevenshteinDistance();
+//
+//        return allNames.stream()
+//                .min(Comparator.comparingInt(existingName -> distance.apply(name.toLowerCase(), existingName.toLowerCase())))
+//                .filter(existingName -> distance.apply(name.toLowerCase(), existingName.toLowerCase()) <= SUGGESTION_THRESHOLD)
+//                .orElse(null);
+//    }
 }

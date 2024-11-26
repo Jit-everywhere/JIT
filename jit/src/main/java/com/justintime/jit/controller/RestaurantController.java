@@ -52,20 +52,20 @@ public class RestaurantController {
         return ResponseEntity.ok("Restaurant deleted successfully.");
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<?> searchRestaurants(@RequestParam String name) {
-        List<String> similarNames = restaurantService.findSimilarNames(name);
-
-        if (!similarNames.isEmpty()) {
-            return ResponseEntity.ok(similarNames);
-        }
-
-        String suggestion = restaurantService.suggestCorrectName(name);
-
-        if (suggestion != null) {
-            return ResponseEntity.badRequest().body("Did you mean: " + suggestion + "?");
-        }
-
-        return ResponseEntity.badRequest().body("No similar restaurants found.");
-    }
+//    @GetMapping("/search")
+//    public ResponseEntity<?> searchRestaurants(@RequestParam String name) {
+//        List<String> similarNames = restaurantService.findSimilarNames(name);
+//
+//        if (!similarNames.isEmpty()) {
+//            return ResponseEntity.ok(similarNames);
+//        }
+//
+//        String suggestion = restaurantService.suggestCorrectName(name);
+//
+//        if (suggestion != null) {
+//            return ResponseEntity.badRequest().body("Did you mean: " + suggestion + "?");
+//        }
+//
+//        return ResponseEntity.badRequest().body("No similar restaurants found.");
+//    }
 }
