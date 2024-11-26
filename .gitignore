@@ -11,4 +11,6 @@ jit/.gradle/
 # Ignore build output directory
 jit/build/
 
+# Ignore .bin files
+*.bin
 
