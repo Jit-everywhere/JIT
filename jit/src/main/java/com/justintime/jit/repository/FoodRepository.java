@@ -13,4 +13,5 @@ public interface FoodRepository extends BaseRepository<Food, Long> {
 
     // Search food by name
     List<Food> findByNameContaining(String name);
+
 }
