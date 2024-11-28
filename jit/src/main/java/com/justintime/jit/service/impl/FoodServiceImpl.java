@@ -15,12 +15,16 @@ public class FoodServiceImpl extends BaseServiceImpl<Food, Long> implements Food
     private FoodRepository foodRepository;
 
     @Override
-    public List<Food> findByRestaurantId(Long restaurantId) {
-        return foodRepository.findByRestaurantId(restaurantId);
+    public List<Food> findByRestaurantsId(Long restaurantId) {
+        // Get foods associated with the given restaurant ID
+        return foodRepository.findByRestaurantsId(restaurantId);
     }
 
     @Override
     public List<Food> findByNameContaining(String name) {
+        // Get foods that match the given name (partial match)
         return foodRepository.findByNameContaining(name);
     }
+
+    // You can add more custom service methods if needed.
 }

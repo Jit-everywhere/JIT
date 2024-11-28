@@ -21,6 +21,12 @@ public class Restaurant {
     @Column(nullable = false)
     private String address;
 
+    @Column(nullable = false)
+    private double latitude;
+
+    @Column(nullable = false)
+    private double longitude;
+
     @Column(name = "phone_number", nullable = false, length = 15)
     private String phoneNumber;
 
@@ -30,7 +36,7 @@ public class Restaurant {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(mappedBy = "restaurants")
     private List<Food> menu;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)

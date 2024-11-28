@@ -8,8 +8,7 @@ import java.util.List;
 @Repository
 public interface FoodRepository extends BaseRepository<Food, Long> {
 
-    // Find all food items in a restaurant
-    List<Food> findByRestaurantId(Long restaurantId);
+    List<Food> findByRestaurantsId(Long restaurantId);
 
     // Search food by name
     List<Food> findByNameContaining(String name);

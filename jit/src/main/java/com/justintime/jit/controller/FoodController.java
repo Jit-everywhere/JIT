@@ -17,7 +17,7 @@ public class FoodController {
 
     @GetMapping("/{restaurantId}")
     public ResponseEntity<List<Food>> getFoodsByRestaurant(@PathVariable Long restaurantId) {
-        List<Food> foods = foodService.findByRestaurantId(restaurantId);
+        List<Food> foods = foodService.findByRestaurantsId(restaurantId);
         return ResponseEntity.ok(foods);
     }
 

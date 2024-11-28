@@ -4,5 +4,5 @@ import com.justintime.jit.dto.SearchResultDto;
 import java.util.List;
 
 public interface SearchService {
-    List<SearchResultDto> searchByName(String query);
+    List<SearchResultDto> searchByName(String query, double latitude, double longitude);
 }

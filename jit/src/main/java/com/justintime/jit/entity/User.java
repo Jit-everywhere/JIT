@@ -25,7 +25,13 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role; // Enum: ADMIN, COOK, SERVER, CUSTOMER
+    private Role role;
+
+    @Column(nullable = false)
+    private double latitude;
+
+    @Column(nullable = false)
+    private double longitude;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
