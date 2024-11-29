@@ -1,13 +1,11 @@
 import "./App.css";
-import ButtonComponent from "./components/common/Button/Button";
-import InputComponent from "./components/common/Input/Input";
+import ComponentList from "./pages/ComponentList";
 
 function App() {
   return (
     <div className="App">
       {/* Sample */}
-      <InputComponent label={"Test"} sx={{ width: "20%" }} />
-      <ButtonComponent label={"Button"} />
+      <ComponentList />
     </div>
   );
 }
