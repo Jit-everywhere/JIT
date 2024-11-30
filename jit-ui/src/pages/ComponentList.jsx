@@ -6,6 +6,7 @@ import InputComponent from "../components/common/Input";
 import TimeSelector from "../components/common/TimeSelector";
 import Map from "../components/common/Map";
 import FoodCard from "../components/common/FoodCard";
+import OrderTracker from "../components/common/OrderTracker";
 
 const ComponentList = () => {
   const foods = [
@@ -22,7 +23,7 @@ const ComponentList = () => {
   ];
 
   return (
-    <>
+    <div style={{width: "80%", height: "100vh"}}>
       <div>Input</div>
       <InputComponent label={"Test"} sx={{ width: "20%" }} />
       <div>Button</div>
@@ -37,7 +38,9 @@ const ComponentList = () => {
       <Map lat={37.7749} lng={-122.4194} />
       <div>Food Card</div>
       <FoodCard foods={foods} addToCart={() => {}} />
-    </>
+      <div>Order Tracker</div>
+      <OrderTracker currentStep={2}/>
+    </div>
   );
 };
 
