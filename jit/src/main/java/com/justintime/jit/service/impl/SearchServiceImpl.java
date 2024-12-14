@@ -66,6 +66,26 @@ public class SearchServiceImpl implements SearchService {
                 results.add(dto);
             }
         }
+        results.sort((a, b) -> {
+            // Compare by type: Restaurants ("Restaurant") should come before Foods ("Food")
+            if (!a.getType().equals(b.getType())) {
+                return a.getType().equals("Restaurant") ? -1 : 1;
+            }
+
+            // If both are Restaurants, sort by distance
+            if (a.getType().equals("Restaurant")) {
+                return Double.compare(a.getDistance(), b.getDistance());
+            }
+
+            // If both are Foods, first sort by name
+            int nameComparison = a.getName().compareTo(b.getName());
+            if (nameComparison != 0) {
+                return nameComparison;
+            }
+
+            // If both are Foods and have the same name, sort by distance
+            return Double.compare(a.getDistance(), b.getDistance());
+        });
 
         return results;
     }
