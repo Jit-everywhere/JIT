@@ -18,7 +18,11 @@ public class SearchController {
     private SearchService searchService;
 
     @GetMapping
-    public List<SearchResultDto> searchByName(@RequestParam String query) {
-        return searchService.searchByName(query);
+    public List<SearchResultDto> searchByName(
+            @RequestParam String query,
+            @RequestParam double latitude,
+            @RequestParam double longitude
+    ) {
+        return searchService.searchByName(query, latitude, longitude);
     }
 }

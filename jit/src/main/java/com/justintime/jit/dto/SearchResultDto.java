@@ -12,5 +12,5 @@ public class SearchResultDto {
     private String type; // "Restaurant" or "Food"
     private String name;
     private List<String> associatedNames; // e.g., foods in a restaurant or restaurants serving a food
-
+    private Double distance;
 }

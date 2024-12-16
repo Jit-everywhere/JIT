@@ -1,0 +1,396 @@
+Subject: [PATCH] location-api patch
+---
+Index: jit/src/main/java/com/justintime/jit/repository/RestaurantRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/repository/RestaurantRepository.java b/jit/src/main/java/com/justintime/jit/repository/RestaurantRepository.java
+--- a/jit/src/main/java/com/justintime/jit/repository/RestaurantRepository.java	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/java/com/justintime/jit/repository/RestaurantRepository.java	(date 1732775184155)
+@@ -1,6 +1,8 @@
+ package com.justintime.jit.repository;
+ 
+ import com.justintime.jit.entity.Restaurant;
++import org.springframework.data.jpa.repository.Query;
++import org.springframework.data.repository.query.Param;
+ import org.springframework.stereotype.Repository;
+ 
+ import java.util.List;
+@@ -15,5 +17,7 @@
+     List<Restaurant> findAll();
+ 
+     List<Restaurant> findByNameContaining(String name);
++    @Query("SELECT r FROM Restaurant r JOIN r.menu f WHERE f.id = :foodId")
++    List<Restaurant> findByFoodId(@Param("foodId") Long foodId);
+ 
+ }
+Index: jit/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/jit/src/main/resources/application.properties b/jit/src/main/resources/application.properties
+--- a/jit/src/main/resources/application.properties	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/resources/application.properties	(date 1732789691769)
+@@ -3,7 +3,7 @@
+ # MySQL Database connection details
+ spring.datasource.url=jdbc:mysql://localhost:3306/jit_db
+ spring.datasource.username=root
+-spring.datasource.password=Dhana@123
++spring.datasource.password=1234
+ 
+ # MySQL Driver
+ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+Index: jit/src/main/java/com/justintime/jit/service/impl/DistanceCalculator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/service/impl/DistanceCalculator.java b/jit/src/main/java/com/justintime/jit/service/impl/DistanceCalculator.java
+new file mode 100644
+--- /dev/null	(date 1732773973656)
++++ b/jit/src/main/java/com/justintime/jit/service/impl/DistanceCalculator.java	(date 1732773973656)
+@@ -0,0 +1,19 @@
++package com.justintime.jit.service.impl;
++
++public class DistanceCalculator {
++    public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
++        final int EARTH_RADIUS = 6371; // Earth radius in kilometers
++
++        double latDistance = Math.toRadians(lat2 - lat1);
++        double lonDistance = Math.toRadians(lon2 - lon1);
++
++        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
++                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
++                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
++
++        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
++
++        return EARTH_RADIUS * c; // Distance in kilometers
++    }
++}
++
+Index: jit/src/main/java/com/justintime/jit/repository/FoodRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/repository/FoodRepository.java b/jit/src/main/java/com/justintime/jit/repository/FoodRepository.java
+--- a/jit/src/main/java/com/justintime/jit/repository/FoodRepository.java	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/java/com/justintime/jit/repository/FoodRepository.java	(date 1732778488624)
+@@ -8,8 +8,7 @@
+ @Repository
+ public interface FoodRepository extends BaseRepository<Food, Long> {
+ 
+-    // Find all food items in a restaurant
+-    List<Food> findByRestaurantId(Long restaurantId);
++    List<Food> findByRestaurantsId(Long restaurantId);
+ 
+     // Search food by name
+     List<Food> findByNameContaining(String name);
+Index: jit/src/main/java/com/justintime/jit/entity/Restaurant.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/entity/Restaurant.java b/jit/src/main/java/com/justintime/jit/entity/Restaurant.java
+--- a/jit/src/main/java/com/justintime/jit/entity/Restaurant.java	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/java/com/justintime/jit/entity/Restaurant.java	(date 1732778098008)
+@@ -21,6 +21,12 @@
+     @Column(nullable = false)
+     private String address;
+ 
++    @Column(nullable = false)
++    private double latitude;
++
++    @Column(nullable = false)
++    private double longitude;
++
+     @Column(name = "phone_number", nullable = false, length = 15)
+     private String phoneNumber;
+ 
+@@ -30,7 +36,7 @@
+     @Column(name = "updated_at")
+     private LocalDateTime updatedAt = LocalDateTime.now();
+ 
+-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
++    @ManyToMany(mappedBy = "restaurants")
+     private List<Food> menu;
+ 
+     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+Index: jit/src/main/java/com/justintime/jit/service/FoodService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/service/FoodService.java b/jit/src/main/java/com/justintime/jit/service/FoodService.java
+--- a/jit/src/main/java/com/justintime/jit/service/FoodService.java	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/java/com/justintime/jit/service/FoodService.java	(date 1732778342598)
+@@ -5,6 +5,6 @@
+ import java.util.List;
+ 
+ public interface FoodService extends BaseService<Food, Long> {
+-    List<Food> findByRestaurantId(Long restaurantId);
++    List<Food> findByRestaurantsId(Long restaurantId);
+     List<Food> findByNameContaining(String name);
+ }
+Index: jit/src/main/java/com/justintime/jit/dto/SearchResultDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/dto/SearchResultDto.java b/jit/src/main/java/com/justintime/jit/dto/SearchResultDto.java
+--- a/jit/src/main/java/com/justintime/jit/dto/SearchResultDto.java	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/java/com/justintime/jit/dto/SearchResultDto.java	(date 1732776455135)
+@@ -12,5 +12,5 @@
+     private String type; // "Restaurant" or "Food"
+     private String name;
+     private List<String> associatedNames; // e.g., foods in a restaurant or restaurants serving a food
+-
++    private Double distance;
+ }
+Index: jit/src/main/java/com/justintime/jit/entity/Food.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/entity/Food.java b/jit/src/main/java/com/justintime/jit/entity/Food.java
+--- a/jit/src/main/java/com/justintime/jit/entity/Food.java	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/java/com/justintime/jit/entity/Food.java	(date 1732777801289)
+@@ -4,6 +4,7 @@
+ import lombok.Data;
+ 
+ import java.time.LocalDateTime;
++import java.util.List;
+ 
+ @Entity
+ @Data
+@@ -22,9 +23,12 @@
+     @Column(nullable = false)
+     private Double price;
+ 
+-    @ManyToOne
+-    @JoinColumn(name = "restaurant_id", nullable = false)
+-    private Restaurant restaurant;
++    @ManyToMany
++    @JoinTable(
++            name = "food_restaurant",
++            joinColumns = @JoinColumn(name = "food_id"),
++            inverseJoinColumns = @JoinColumn(name = "restaurant_id"))
++    private List<Restaurant> restaurants;
+ 
+     @Column(name = "created_at", updatable = false)
+     private LocalDateTime createdAt = LocalDateTime.now();
+Index: jit/src/main/java/com/justintime/jit/entity/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/entity/User.java b/jit/src/main/java/com/justintime/jit/entity/User.java
+--- a/jit/src/main/java/com/justintime/jit/entity/User.java	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/java/com/justintime/jit/entity/User.java	(date 1732773856462)
+@@ -25,7 +25,13 @@
+ 
+     @Enumerated(EnumType.STRING)
+     @Column(nullable = false)
+-    private Role role; // Enum: ADMIN, COOK, SERVER, CUSTOMER
++    private Role role;
++
++    @Column(nullable = false)
++    private double latitude;
++
++    @Column(nullable = false)
++    private double longitude;
+ 
+     @ManyToOne
+     @JoinColumn(name = "restaurant_id")
+Index: jit/src/main/java/com/justintime/jit/service/impl/SearchServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/service/impl/SearchServiceImpl.java b/jit/src/main/java/com/justintime/jit/service/impl/SearchServiceImpl.java
+--- a/jit/src/main/java/com/justintime/jit/service/impl/SearchServiceImpl.java	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/java/com/justintime/jit/service/impl/SearchServiceImpl.java	(date 1732777988662)
+@@ -10,11 +10,14 @@
+ import org.springframework.stereotype.Service;
+ 
+ import java.util.ArrayList;
++import java.util.Comparator;
+ import java.util.List;
+ 
+ @Service
+ public class SearchServiceImpl implements SearchService {
+ 
++    private static final double EARTH_RADIUS = 6371; // Radius of Earth in kilometers
++
+     @Autowired
+     private FoodRepository foodRepository;
+ 
+@@ -22,15 +25,18 @@
+     private RestaurantRepository restaurantRepository;
+ 
+     @Override
+-    public List<SearchResultDto> searchByName(String query) {
++    public List<SearchResultDto> searchByName(String query, double userLatitude, double userLongitude) {
+         List<SearchResultDto> results = new ArrayList<>();
+ 
+         // Search Restaurants
+         List<Restaurant> matchingRestaurants = restaurantRepository.findByNameContaining(query);
+         for (Restaurant restaurant : matchingRestaurants) {
++            double distance = calculateDistance(userLatitude, userLongitude, restaurant.getLatitude(), restaurant.getLongitude());
++
+             SearchResultDto dto = new SearchResultDto();
+             dto.setType("Restaurant");
+             dto.setName(restaurant.getName());
++            dto.setDistance(distance);  // Set distance in km
+ 
+             // Get associated foods
+             List<String> foods = new ArrayList<>();
+@@ -43,18 +49,37 @@
+         // Search Foods
+         List<Food> matchingFoods = foodRepository.findByNameContaining(query);
+         for (Food food : matchingFoods) {
+-            SearchResultDto dto = new SearchResultDto();
+-            dto.setType("Food");
+-            dto.setName(food.getName());
++            // For each food, find all associated restaurants and calculate distance for each
++            for (Restaurant restaurant : food.getRestaurants()) {  // Use getRestaurants() to get all associated restaurants
++                double distance = calculateDistance(userLatitude, userLongitude, restaurant.getLatitude(), restaurant.getLongitude());
++
++                SearchResultDto dto = new SearchResultDto();
++                dto.setType("Food");
++                dto.setName(food.getName());
++                dto.setDistance(distance);  // Set distance in km
+ 
+-            // Get associated restaurants
+-            List<String> restaurants = new ArrayList<>();
+-            restaurants.add(food.getRestaurant().getName());
+-            dto.setAssociatedNames(restaurants);
++                // Get associated restaurant names
++                List<String> restaurants = new ArrayList<>();
++                restaurants.add(restaurant.getName());
++                dto.setAssociatedNames(restaurants);
+ 
+-            results.add(dto);
++                results.add(dto);
++            }
+         }
+ 
+         return results;
+     }
++
++    // Calculate the distance between two lat/lon points in kilometers
++    private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
++        double latDistance = Math.toRadians(lat2 - lat1);
++        double lonDistance = Math.toRadians(lon2 - lon1);
++        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
++                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
++                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
++        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
++        return EARTH_RADIUS * c; // Returns the distance in kilometers
++    }
+ }
++
++
+Index: jit/src/main/java/com/justintime/jit/service/impl/FoodServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/service/impl/FoodServiceImpl.java b/jit/src/main/java/com/justintime/jit/service/impl/FoodServiceImpl.java
+--- a/jit/src/main/java/com/justintime/jit/service/impl/FoodServiceImpl.java	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/java/com/justintime/jit/service/impl/FoodServiceImpl.java	(date 1732778488628)
+@@ -15,12 +15,16 @@
+     private FoodRepository foodRepository;
+ 
+     @Override
+-    public List<Food> findByRestaurantId(Long restaurantId) {
+-        return foodRepository.findByRestaurantId(restaurantId);
++    public List<Food> findByRestaurantsId(Long restaurantId) {
++        // Get foods associated with the given restaurant ID
++        return foodRepository.findByRestaurantsId(restaurantId);
+     }
+ 
+     @Override
+     public List<Food> findByNameContaining(String name) {
++        // Get foods that match the given name (partial match)
+         return foodRepository.findByNameContaining(name);
+     }
++
++    // You can add more custom service methods if needed.
+ }
+Index: jit/compose.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/compose.yaml b/jit/compose.yaml
+--- a/jit/compose.yaml	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/compose.yaml	(date 1732775030034)
+@@ -11,8 +11,8 @@
+     image: 'mysql:latest'
+     environment:
+       - 'MYSQL_DATABASE=jit_db'
+-      - 'MYSQL_PASSWORD=Dhana@123'
+-      - 'MYSQL_ROOT_PASSWORD=Dhana@123'
++      - 'MYSQL_PASSWORD=1234'
++      - 'MYSQL_ROOT_PASSWORD=1234'
+       - 'MYSQL_USER=root'
+     ports:
+       - '3306'
+Index: jit/src/main/java/com/justintime/jit/service/SearchService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/service/SearchService.java b/jit/src/main/java/com/justintime/jit/service/SearchService.java
+--- a/jit/src/main/java/com/justintime/jit/service/SearchService.java	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/java/com/justintime/jit/service/SearchService.java	(date 1732774572657)
+@@ -4,5 +4,5 @@
+ import java.util.List;
+ 
+ public interface SearchService {
+-    List<SearchResultDto> searchByName(String query);
++    List<SearchResultDto> searchByName(String query, double latitude, double longitude);
+ }
+Index: jit/src/main/java/com/justintime/jit/controller/SearchController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/controller/SearchController.java b/jit/src/main/java/com/justintime/jit/controller/SearchController.java
+--- a/jit/src/main/java/com/justintime/jit/controller/SearchController.java	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/java/com/justintime/jit/controller/SearchController.java	(date 1732774454889)
+@@ -18,7 +18,11 @@
+     private SearchService searchService;
+ 
+     @GetMapping
+-    public List<SearchResultDto> searchByName(@RequestParam String query) {
+-        return searchService.searchByName(query);
++    public List<SearchResultDto> searchByName(
++            @RequestParam String query,
++            @RequestParam double latitude,
++            @RequestParam double longitude
++    ) {
++        return searchService.searchByName(query, latitude, longitude);
+     }
+ }
+Index: jit/src/main/java/com/justintime/jit/controller/FoodController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jit/src/main/java/com/justintime/jit/controller/FoodController.java b/jit/src/main/java/com/justintime/jit/controller/FoodController.java
+--- a/jit/src/main/java/com/justintime/jit/controller/FoodController.java	(revision c717f19a58880c6bbb1c1d0f97dcdc5ec7abb636)
++++ b/jit/src/main/java/com/justintime/jit/controller/FoodController.java	(date 1732778342604)
+@@ -17,7 +17,7 @@
+ 
+     @GetMapping("/{restaurantId}")
+     public ResponseEntity<List<Food>> getFoodsByRestaurant(@PathVariable Long restaurantId) {
+-        List<Food> foods = foodService.findByRestaurantId(restaurantId);
++        List<Food> foods = foodService.findByRestaurantsId(restaurantId);
+         return ResponseEntity.ok(foods);
+     }
+ 
