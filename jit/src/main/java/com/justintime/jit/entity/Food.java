@@ -2,6 +2,8 @@ package com.justintime.jit.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,12 +29,15 @@ public class Food {
     @JoinTable(
             name = "food_restaurant",
             joinColumns = @JoinColumn(name = "food_id"),
-            inverseJoinColumns = @JoinColumn(name = "restaurant_id"))
+            inverseJoinColumns = @JoinColumn(name = "restaurant_id")
+    )
     private List<Restaurant> restaurants;
 
+    @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
@@ -40,6 +45,4 @@ public class Food {
     private void setUpdatedAt() {
         this.updatedAt = LocalDateTime.now();
     }
-
-    // Getters and Setters
 }

@@ -2,6 +2,8 @@ package com.justintime.jit.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,7 +29,7 @@ public class Restaurant {
     @Column(nullable = false)
     private double longitude;
 
-    @Column(name = "phone_number", nullable = false, length = 15)
+    @Column(name = "phone_number", nullable = false, length = 25)
     private String phoneNumber;
 
     @Column(name = "created_at", updatable = false)
@@ -46,6 +48,4 @@ public class Restaurant {
     private void setUpdatedAt() {
         this.updatedAt = LocalDateTime.now();
     }
-
-    // Getters and Setters
 }
