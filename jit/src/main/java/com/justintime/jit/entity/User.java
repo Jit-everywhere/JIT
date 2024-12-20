@@ -4,43 +4,51 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
 @Table(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @Column(nullable = false, length = 100)
-    private String name;
+        @Column(name = "first_name", nullable = false)
+        private String firstName;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;
+        @Column(name = "last_name", nullable = false)
+        private String lastName;
 
-    @Column(nullable = false)
-    private String password;
+        @Column(name = "profile_picture_url")
+        private String profilePictureUrl;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role; // Enum: ADMIN, COOK, SERVER, CUSTOMER
+        @Column(name = "is_active", nullable = false)
+        private Boolean isActive;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;
+        @Column(name = "user_name", nullable = false)
+        private String userName;
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+        @Column(name = "email", nullable = false)
+        private String email;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt = LocalDateTime.now();
+        @Column(name = "phone_number")
+        private String phoneNumber;
 
-    @PreUpdate
-    private void setUpdatedAt() {
-        this.updatedAt = LocalDateTime.now();
-    }
+        @Column(name = "password_hash", nullable = false)
+        private String passwordHash;
 
-    // Getters and Setters
+        @Column(name = "role", nullable = false)
+        private String role;
+
+        @Column(name = "created_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+        private LocalDateTime createdDttm;
+
+        @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+        private LocalDateTime updatedDttm;
+
+        @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+        private List<Reservation> reservations;
+
 }

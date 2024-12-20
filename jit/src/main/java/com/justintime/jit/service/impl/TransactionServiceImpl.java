@@ -1,8 +1,8 @@
 package com.justintime.jit.service.impl;
 
 
-import com.justintime.jit.entity.Transaction;
-import com.justintime.jit.repository.TransactionRepository;
+import com.justintime.jit.entity.PaymentEntities.Transaction;
+import com.justintime.jit.repository.PaymentRepo.TransactionRepository;
 import com.justintime.jit.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

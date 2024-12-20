@@ -1,6 +1,6 @@
 package com.justintime.jit.controller;
 
-import com.justintime.jit.entity.Payment;
+import com.justintime.jit.entity.PaymentEntities.Payment;
 import com.justintime.jit.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

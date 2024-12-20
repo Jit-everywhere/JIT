@@ -1,9 +1,8 @@
-package com.justintime.jit.entity;
+package com.justintime.jit.entity.PaymentEntities;
 
+import com.justintime.jit.entity.OrderEntities.Order;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,14 +12,17 @@ import java.time.LocalDateTime;
 @Data
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "order_id", nullable = false)
-    private Long orderId;
+    @OneToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 
     @Column(name = "payment_method", nullable = false)
     private String paymentMethod;
@@ -43,6 +45,4 @@ public class Payment {
     @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedDttm;
 
-    // Getters and Setters
-    // Constructor(s)
 }

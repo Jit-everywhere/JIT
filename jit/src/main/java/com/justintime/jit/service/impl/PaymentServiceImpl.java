@@ -1,7 +1,7 @@
 package com.justintime.jit.service.impl;
 
-import com.justintime.jit.entity.Payment;
-import com.justintime.jit.repository.PaymentRepository;
+import com.justintime.jit.entity.PaymentEntities.Payment;
+import com.justintime.jit.repository.PaymentRepo.PaymentRepository;
 import com.justintime.jit.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class PaymentServiceImpl implements PaymentService {
     public Payment updatePayment(Long id, Payment updatedPayment) {
         return paymentRepository.findById(id)
                 .map(existingPayment -> {
-                    existingPayment.setOrderId(updatedPayment.getOrderId());
+                    existingPayment.setOrder(updatedPayment.getOrder());
                     existingPayment.setPaymentMethod(updatedPayment.getPaymentMethod());
                     existingPayment.setAmount(updatedPayment.getAmount());
                     existingPayment.setCurrency(updatedPayment.getCurrency());

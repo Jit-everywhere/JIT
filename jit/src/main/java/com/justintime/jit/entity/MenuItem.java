@@ -1,13 +1,19 @@
 package com.justintime.jit.entity;
 
+import com.justintime.jit.entity.ComboEntities.ComboItem;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "menu_item")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MenuItem {
 
     @Id
@@ -32,61 +38,6 @@ public class MenuItem {
     @Column(name = "updated_dttm", nullable = false)
     private LocalDateTime updatedDttm;
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(Long restaurantId) {
-        this.restaurantId = restaurantId;
-    }
-
-    public Long getFoodId() {
-        return foodId;
-    }
-
-    public void setFoodId(Long foodId) {
-        this.foodId = foodId;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public LocalDateTime getCreatedDttm()
-    {
-        return createdDttm;
-    }
-
-    public LocalDateTime getUpdatedDttm() {
-        return updatedDttm;
-    }
-
-    public void setCreatedDttm(LocalDateTime createdDttm) {
-        this.createdDttm = createdDttm;
-    }
-
-    public void setUpdatedDttm(LocalDateTime updatedDttm) {
-        this.updatedDttm = updatedDttm;
-    }
+    @OneToMany(mappedBy = "menuItem", cascade = CascadeType.ALL)
+    private List<ComboItem> comboItems;
 }

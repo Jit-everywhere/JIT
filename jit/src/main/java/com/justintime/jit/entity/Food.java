@@ -14,28 +14,33 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
-    private String name;
+    @Column(name="foodName",nullable = false, length = 100)
+    private String foodName;
 
+    @Column(name="description",nullable = false)
     private String description;
-
-    @Column(nullable = false)
-    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+    @Column(nullable = false)
+    private Double price;
+
+    @Column(name = "created_Dttm", updatable = false)
+    private LocalDateTime createdDttm = LocalDateTime.now();
+
+    @Column(name = "updated_Dttm")
+    private LocalDateTime updatedDttm = LocalDateTime.now();
 
     @PreUpdate
     private void setUpdatedAt() {
-        this.updatedAt = LocalDateTime.now();
+        this.updatedDttm = LocalDateTime.now();
     }
 
-    // Getters and Setters
 }

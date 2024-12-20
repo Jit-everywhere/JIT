@@ -1,7 +1,9 @@
 package com.justintime.jit.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,37 +11,39 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "restaurants")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Restaurant {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @Column(nullable = false, length = 100)
-    private String name;
+        @Column(name = "restaurant_name", nullable = false)
+        private String restaurantName;
 
-    @Column(nullable = false)
-    private String address;
+        @ManyToOne
+        @JoinColumn(name = "address_id",nullable = false)
+        private Address address;
 
-    @Column(name = "phone_number", nullable = false, length = 15)
-    private String phoneNumber;
+        @Column(name = "contact_number")
+        private String contactNumber;
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+        @Column(name = "email")
+        private String email;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt = LocalDateTime.now();
+        @Column(name = "created_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+        private LocalDateTime createdDttm;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Food> menu;
+        @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+        private LocalDateTime updatedDttm;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<User> staff;
+        @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        private List<Food> menu;
 
-    @PreUpdate
-    private void setUpdatedAt() {
-        this.updatedAt = LocalDateTime.now();
-    }
+        @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+        private List<ShiftCapacity> shiftCapacities;
 
-    // Getters and Setters
+        @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+        private List<Reservation> reservations;
 }

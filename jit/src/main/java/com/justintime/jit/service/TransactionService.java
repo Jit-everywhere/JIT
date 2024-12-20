@@ -1,7 +1,6 @@
 package com.justintime.jit.service;
 
-import com.justintime.jit.entity.MenuItem;
-import com.justintime.jit.entity.Transaction;
+import com.justintime.jit.entity.PaymentEntities.Transaction;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

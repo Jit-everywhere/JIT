@@ -1,93 +1,47 @@
 package com.justintime.jit.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "shift_capacity")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ShiftCapacity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @Column(name = "restaurant_id", nullable = false)
-    private Long restaurantId;
+        @ManyToOne
+        @JoinColumn(name = "restaurant_id", nullable = false)
+        private Restaurant restaurant;
 
-    @Column(name = "start_time", nullable = false)
-    private LocalTime startTime;
+        @Column(name = "start_time", nullable = false)
+        private LocalTime startTime;
 
-    @Column(name = "end_time", nullable = false)
-    private LocalTime endTime;
+        @Column(name = "end_time", nullable = false)
+        private LocalTime endTime;
 
-    @Column(name = "total_capacity", nullable = false)
-    private Integer totalCapacity;
+        @Column(name = "total_capacity", nullable = false)
+        private Integer totalCapacity;
 
-    @Column(name = "created_dttm", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime createdDttm;
+        @Column(name = "created_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+        private LocalDateTime createdDttm;
 
-    @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
-    private LocalDateTime updatedDttm;
+        @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+        private LocalDateTime updatedDttm;
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+        @OneToMany(mappedBy = "shiftCapacity", cascade = CascadeType.ALL)
+        private List<Reservation> reservations;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public Long getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(Long restaurantId) {
-        this.restaurantId = restaurantId;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public Integer getTotalCapacity() {
-        return totalCapacity;
-    }
-
-    public void setTotalCapacity(Integer totalCapacity) {
-        this.totalCapacity = totalCapacity;
-    }
-
-    public LocalDateTime getCreatedDttm() {
-        return createdDttm;
-    }
-
-    public void setCreatedDttm(LocalDateTime createdDttm) {
-        this.createdDttm = createdDttm;
-    }
-
-    public LocalDateTime getUpdatedDttm() {
-        return updatedDttm;
-    }
-
-    public void setUpdatedDttm(LocalDateTime updatedDttm) {
-        this.updatedDttm = updatedDttm;
-    }
 }
 

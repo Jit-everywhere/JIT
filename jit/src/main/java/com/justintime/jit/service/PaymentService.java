@@ -1,6 +1,6 @@
 package com.justintime.jit.service;
 
-import com.justintime.jit.entity.Payment;
+import com.justintime.jit.entity.PaymentEntities.Payment;
 
 import java.util.List;
 import java.util.Optional;

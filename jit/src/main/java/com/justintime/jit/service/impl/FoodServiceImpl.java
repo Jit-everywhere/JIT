@@ -11,16 +11,44 @@ import java.util.List;
 @Service
 public class FoodServiceImpl extends BaseServiceImpl<Food, Long> implements FoodService {
 
-    @Autowired
-    private FoodRepository foodRepository;
+        @Autowired
+        private FoodRepository foodRepository;
 
-    @Override
-    public List<Food> findByRestaurantId(Long restaurantId) {
-        return foodRepository.findByRestaurantId(restaurantId);
-    }
+        @Override
+        public List<Food> getAllFoods() {
+            return foodRepository.findAll();
+        }
 
-    @Override
-    public List<Food> findByNameContaining(String name) {
-        return foodRepository.findByNameContaining(name);
-    }
+        @Override
+        public Food getFoodById(Long id) {
+            return foodRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Food not found with id: " + id));
+        }
+
+        @Override
+        public Food createFood(Food food) {
+            return foodRepository.save(food);
+        }
+
+        @Override
+        public Food updateFood(Long id, Food foodDetails) {
+            return foodRepository.findById(id)
+                    .map(food -> {
+                        food.setFoodName(foodDetails.getFoodName());
+                        food.setDescription(foodDetails.getDescription());
+                        food.setRestaurant(foodDetails.getRestaurant());
+                        food.setCategory(foodDetails.getCategory());
+                        food.setPrice(foodDetails.getPrice());
+                        food.setUpdatedDttm(foodDetails.getUpdatedDttm());
+                        return foodRepository.save(food);
+                    }).orElseThrow(() -> new RuntimeException("Food not found with id: " + id));
+        }
+
+        @Override
+        public void deleteFood(Long id) {
+            Food food = foodRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Food not found with id: " + id));
+            foodRepository.delete(food);
+        }
+
 }

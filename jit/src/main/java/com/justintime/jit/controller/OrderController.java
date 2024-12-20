@@ -1,6 +1,6 @@
 package com.justintime.jit.controller;
 
-import com.justintime.jit.entity.Order;
+import com.justintime.jit.entity.OrderEntities.Order;
 import com.justintime.jit.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
