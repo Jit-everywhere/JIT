@@ -12,18 +12,36 @@ import java.util.List;
 @RequestMapping("/api/foods")
 public class FoodController {
 
-    @Autowired
-    private FoodService foodService;
+        @Autowired
+        private FoodService foodService;
 
-    @GetMapping("/{restaurantId}")
-    public ResponseEntity<List<Food>> getFoodsByRestaurant(@PathVariable Long restaurantId) {
-        List<Food> foods = foodService.findByRestaurantId(restaurantId);
-        return ResponseEntity.ok(foods);
-    }
+        @GetMapping
+        public List<Food> getAllFoods() {
+            return foodService.getAllFoods();
+        }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> addFood(@RequestBody Food food) {
-        foodService.save(food);  // Convert DTO to entity
-        return ResponseEntity.ok("Food added successfully");
-    }
+        @GetMapping("/{id}")
+        public ResponseEntity<Food> getFoodById(@PathVariable Long id) {
+            Food food = foodService.getFoodById(id);
+            return ResponseEntity.ok(food);
+        }
+
+        @PostMapping
+        public Food createFood(@RequestBody Food food) {
+            return foodService.createFood(food);
+        }
+
+        @PutMapping("/{id}")
+        public ResponseEntity<Food> updateFood(@PathVariable Long id, @RequestBody Food foodDetails) {
+            Food updatedFood = foodService.updateFood(id, foodDetails);
+            return ResponseEntity.ok(updatedFood);
+        }
+
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> deleteFood(@PathVariable Long id) {
+            foodService.deleteFood(id);
+            return ResponseEntity.noContent().build();
+        }
+
+
 }

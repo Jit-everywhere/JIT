@@ -10,5 +10,9 @@ public interface RestaurantService {
     Restaurant getRestaurantById(Long id);
     Restaurant updateRestaurant(Long id, Restaurant restaurant);
     void deleteRestaurant(Long id);
+
+//    List<String> findSimilarNames(String name);
+//
+//    String suggestCorrectName(String name);
 }
 

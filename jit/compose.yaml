@@ -11,8 +11,8 @@ services:
     image: 'mysql:latest'
     environment:
       - 'MYSQL_DATABASE=jit_db'
-      - 'MYSQL_PASSWORD=SQL2024'
-      - 'MYSQL_ROOT_PASSWORD=SQL2024'
+      - 'MYSQL_PASSWORD=Moni@14'
+      - 'MYSQL_ROOT_PASSWORD=Moni@14'
       - 'MYSQL_USER=root'
     ports:
       - '3306'

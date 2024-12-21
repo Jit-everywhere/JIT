@@ -1,6 +1,6 @@
 package com.justintime.jit.service.impl;
 
-import com.justintime.jit.entity.Order;
+import com.justintime.jit.entity.OrderEntities.Order;
 import com.justintime.jit.entity.Restaurant;
 import com.justintime.jit.exception.ResourceNotFoundException;
 import com.justintime.jit.repository.OrderRepository;
