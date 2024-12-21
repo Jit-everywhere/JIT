@@ -26,30 +26,30 @@ public class SearchServiceImpl implements SearchService {
         List<SearchResultDto> results = new ArrayList<>();
 
         // Search Restaurants
-        List<Restaurant> matchingRestaurants = restaurantRepository.findByNameContaining(query);
+        List<Restaurant> matchingRestaurants = restaurantRepository.findByRestaurantNameContaining(query);
         for (Restaurant restaurant : matchingRestaurants) {
             SearchResultDto dto = new SearchResultDto();
             dto.setType("Restaurant");
-            dto.setName(restaurant.getName());
+            dto.setName(restaurant.getRestaurantName());
 
             // Get associated foods
             List<String> foods = new ArrayList<>();
-            restaurant.getMenu().forEach(food -> foods.add(food.getName()));
+            restaurant.getMenu().forEach(food -> foods.add(food.getFoodName()));
             dto.setAssociatedNames(foods);
 
             results.add(dto);
         }
 
         // Search Foods
-        List<Food> matchingFoods = foodRepository.findByNameContaining(query);
+        List<Food> matchingFoods = foodRepository.findByFoodNameContaining(query);
         for (Food food : matchingFoods) {
             SearchResultDto dto = new SearchResultDto();
             dto.setType("Food");
-            dto.setName(food.getName());
+            dto.setName(food.getFoodName());
 
             // Get associated restaurants
             List<String> restaurants = new ArrayList<>();
-            restaurants.add(food.getRestaurant().getName());
+            restaurants.add(food.getFoodName());
             dto.setAssociatedNames(restaurants);
 
             results.add(dto);

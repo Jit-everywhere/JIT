@@ -1,5 +1,8 @@
-package com.justintime.jit.entity;
+package com.justintime.jit.entity.OrderEntities;
 
+import com.justintime.jit.entity.PaymentEntities.Payment;
+import com.justintime.jit.entity.Restaurant;
+import com.justintime.jit.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -31,15 +34,18 @@ public class Order {
     @Column(name = "batch_time", nullable = false)
     private LocalDateTime batchTime;
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(name = "created_Dttm", updatable = false)
+    private LocalDateTime createdDttm = LocalDateTime.now();
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    @Column(name = "updated_Dttm")
+    private LocalDateTime updatedDttm = LocalDateTime.now();
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Payment payment;
 
     @PreUpdate
     private void setUpdatedAt() {
-        this.updatedAt = LocalDateTime.now();
+        this.updatedDttm = LocalDateTime.now();
     }
 
     // Getters and Setters

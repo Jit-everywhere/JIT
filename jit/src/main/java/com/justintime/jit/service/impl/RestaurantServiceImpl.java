@@ -1,6 +1,7 @@
 package com.justintime.jit.service.impl;
 
 import com.justintime.jit.entity.Restaurant;
+import com.justintime.jit.repository.AddressRepository;
 import com.justintime.jit.repository.RestaurantRepository;
 import com.justintime.jit.service.RestaurantService;
 import org.apache.commons.text.similarity.LevenshteinDistance;
@@ -11,10 +12,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class RestaurantServiceImpl implements RestaurantService {
+public class RestaurantServiceImpl extends BaseServiceImpl<Restaurant,Long> implements RestaurantService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     private static final int SUGGESTION_THRESHOLD = 3;
 
@@ -34,14 +38,15 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .orElseThrow(() -> new RuntimeException("Restaurant not found with id: " + id));
     }
 
+
     @Override
     public Restaurant updateRestaurant(Long id, Restaurant restaurant) {
         Restaurant existingRestaurant = getRestaurantById(id);
 
         // Update fields
-        existingRestaurant.setName(restaurant.getName());
+        existingRestaurant.setRestaurantName(restaurant.getRestaurantName());
         existingRestaurant.setAddress(restaurant.getAddress());
-        existingRestaurant.setPhoneNumber(restaurant.getPhoneNumber());
+        existingRestaurant.setContactNumber(restaurant.getContactNumber());
 
         return restaurantRepository.save(existingRestaurant);
     }
