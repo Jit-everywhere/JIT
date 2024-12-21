@@ -9,6 +9,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Red color palette
+        'red-100': '#fcd5d5',
+        'red-200': '#f8a1a1',
+        'red-300': '#f77474',
+        'red-400': '#f44747',
+        'red-500': '#f01a1a',
+        'red-600': '#d01818',
+        'red-700': '#a01414',
+        'red-800': '#7f1010',
+        'red-900': '#5f0c0c',
+
         // Beige color palette
         'beige-100': '#fcfaf4',
         'beige-200': '#faf8ef',

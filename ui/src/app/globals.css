@@ -9,7 +9,7 @@ body {
 
 /* Use the dark mode class for styling dark mode */
 body {
-  @apply bg-white-100 text-black-100; /* Light theme by default */
+  @apply bg-white-100 text-black-400; /* Light theme by default */
 }
 
 body.dark {
