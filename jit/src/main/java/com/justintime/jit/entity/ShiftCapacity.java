@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
 @Entity
+@Audited
 @Table(name = "shift_capacity")
 @Data
 @NoArgsConstructor

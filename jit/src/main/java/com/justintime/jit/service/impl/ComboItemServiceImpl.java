@@ -35,7 +35,7 @@ public class ComboItemServiceImpl extends BaseServiceImpl<ComboItem,Long> implem
     public ComboItem updateComboItems(Long id, ComboItem updatedComboItems) {
         return comboItemRepository.findById(id)
                 .map(comboItem -> {
-                    comboItem.setCombo(updatedComboItems.getCombo());
+                    comboItem.setComboSet(updatedComboItems.getComboSet());
                     comboItem.setMenuItem(updatedComboItems.getMenuItem());
                     comboItem.setUpdatedDttm(updatedComboItems.getUpdatedDttm());
                     return comboItemRepository.save(comboItem);

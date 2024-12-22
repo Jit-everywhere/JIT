@@ -4,12 +4,15 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
+@Audited
 @Data
-@Table(name="Reservation")
+@Table(name="reservation")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Reservation {
@@ -47,5 +50,8 @@ public class Reservation {
 
         @Column(name = "updated_dttm", nullable = false)
         private LocalDateTime updatedDttm = LocalDateTime.now();
+
+        @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
+        private List<ReservationActivity> reservationActivities;
 
 }

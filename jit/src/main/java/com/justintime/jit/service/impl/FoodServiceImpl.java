@@ -36,9 +36,7 @@ public class FoodServiceImpl extends BaseServiceImpl<Food, Long> implements Food
                     .map(food -> {
                         food.setFoodName(foodDetails.getFoodName());
                         food.setDescription(foodDetails.getDescription());
-                        food.setRestaurant(foodDetails.getRestaurant());
                         food.setCategory(foodDetails.getCategory());
-                        food.setPrice(foodDetails.getPrice());
                         food.setUpdatedDttm(foodDetails.getUpdatedDttm());
                         return foodRepository.save(food);
                     }).orElseThrow(() -> new RuntimeException("Food not found with id: " + id));

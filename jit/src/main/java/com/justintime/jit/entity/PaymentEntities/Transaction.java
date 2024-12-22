@@ -2,10 +2,13 @@ package com.justintime.jit.entity.PaymentEntities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.Audited;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Audited
 @Table(name = "transaction")
 @Getter
 @Setter
@@ -18,7 +21,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "payment_id", nullable = false)
     private Payment payment;
 
