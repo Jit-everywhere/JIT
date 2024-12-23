@@ -7,8 +7,7 @@ import java.util.Optional;
 
 public interface OrderActivityService {
     List<OrderActivity> getAllOrderActivities();
+    OrderActivity createOrderActivity(OrderActivity orderActivity);
     Optional<OrderActivity> getOrderActivityById(Long id);
-    OrderActivity updateOrderActivity(Long id, OrderActivity orderActivityDetails);
-    OrderActivity saveOrderActivity(OrderActivity orderActivity);
     void deleteOrderActivity(Long id);
 }

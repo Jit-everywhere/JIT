@@ -28,18 +28,18 @@ public class ReservationActivityController {
 
     @PostMapping
     public ReservationActivity createReservationActivity(@RequestBody ReservationActivity reservationActivity) {
-        return reservationActivityService.saveReservationActivity(reservationActivity);
+        return reservationActivityService.createReservationActivity(reservationActivity);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ReservationActivity> updateReservationActivity(@PathVariable Long id, @RequestBody ReservationActivity reservationActivityDetails) {
-        try {
-            ReservationActivity updatedReservationActivity = reservationActivityService.updateReservationActivity(id, reservationActivityDetails);
-            return ResponseEntity.ok(updatedReservationActivity);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<ReservationActivity> updateReservationActivity(@PathVariable Long id, @RequestBody ReservationActivity reservationActivityDetails) {
+//        try {
+//            ReservationActivity updatedReservationActivity = reservationActivityService.updateReservationActivity(id, reservationActivityDetails);
+//            return ResponseEntity.ok(updatedReservationActivity);
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReservationActivity(@PathVariable Long id) {

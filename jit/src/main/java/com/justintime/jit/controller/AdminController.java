@@ -1,7 +1,6 @@
 package com.justintime.jit.controller;
 
 import com.justintime.jit.entity.Admin;
-import com.justintime.jit.entity.Admin;
 import com.justintime.jit.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

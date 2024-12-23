@@ -55,5 +55,4 @@ public class ReservationServiceImpl implements ReservationService {
             reservationRepository.delete(reservation);
             return ResponseEntity.noContent().build();
         }
-
 }

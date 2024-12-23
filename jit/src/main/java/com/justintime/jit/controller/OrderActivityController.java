@@ -28,18 +28,18 @@ public class OrderActivityController {
 
     @PostMapping
     public OrderActivity createOrderActivity(@RequestBody OrderActivity orderActivity) {
-        return orderActivityService.saveOrderActivity(orderActivity);
+        return orderActivityService.createOrderActivity(orderActivity);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<OrderActivity> updateOrderActivity(@PathVariable Long id, @RequestBody OrderActivity orderActivityDetails) {
-        try {
-            OrderActivity updatedOrderActivity = orderActivityService.updateOrderActivity(id, orderActivityDetails);
-            return ResponseEntity.ok(updatedOrderActivity);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<OrderActivity> updateOrderActivity(@PathVariable Long id, @RequestBody OrderActivity orderActivityDetails) {
+//        try {
+//            OrderActivity updatedOrderActivity = orderActivityService.updateOrderActivity(id, orderActivityDetails);
+//            return ResponseEntity.ok(updatedOrderActivity);
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrderActivity(@PathVariable Long id) {
