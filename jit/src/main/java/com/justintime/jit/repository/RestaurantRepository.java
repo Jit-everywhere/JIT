@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public interface RestaurantRepository extends BaseRepository<Restaurant, Long> {
 
-//    // Find a restaurant by name
+    // Find a restaurant by name
 //    Restaurant findByName(String name);
 
     // Get all restaurants

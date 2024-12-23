@@ -3,7 +3,7 @@ package com.justintime.jit.service.impl;
 import com.justintime.jit.entity.OrderEntities.Order;
 import com.justintime.jit.entity.Restaurant;
 import com.justintime.jit.exception.ResourceNotFoundException;
-import com.justintime.jit.repository.OrderRepository;
+import com.justintime.jit.repository.OrderRepo.OrderRepository;
 import com.justintime.jit.repository.RestaurantRepository;
 import com.justintime.jit.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
