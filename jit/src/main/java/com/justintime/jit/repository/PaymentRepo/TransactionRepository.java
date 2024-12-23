@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TransactionRepository extends BaseRepository<Transaction, Long> {
-    // Custom queries can be added here if needed
 }
 

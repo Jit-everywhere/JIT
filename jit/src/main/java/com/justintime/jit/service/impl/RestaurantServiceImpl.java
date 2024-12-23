@@ -45,7 +45,7 @@ public class RestaurantServiceImpl extends BaseServiceImpl<Restaurant,Long> impl
 
         // Update fields
         existingRestaurant.setRestaurantName(restaurant.getRestaurantName());
-        existingRestaurant.setAddress(restaurant.getAddress());
+        existingRestaurant.setAddresses(restaurant.getAddresses());
         existingRestaurant.setContactNumber(restaurant.getContactNumber());
 
         return restaurantRepository.save(existingRestaurant);

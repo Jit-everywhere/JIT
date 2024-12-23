@@ -2,10 +2,13 @@ package com.justintime.jit.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
+@Audited
 @Data
 @Table(name = "food")
 public class Food {
@@ -14,29 +17,24 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="foodName",nullable = false, length = 100)
+    @Column(name="food_name",nullable = false, length = 100)
     private String foodName;
 
     @Column(name="description",nullable = false)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    private Restaurant restaurant;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @Column(nullable = false)
-    private Double price;
-
-    @Column(name = "created_Dttm", updatable = false)
+    @Column(name = "created_dttm", updatable = false)
     private LocalDateTime createdDttm = LocalDateTime.now();
 
-    @Column(name = "updated_Dttm")
+    @Column(name = "updated_dttm")
     private LocalDateTime updatedDttm = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
+    private List<MenuItem> menuItems;
 
     @PreUpdate
     private void setUpdatedAt() {

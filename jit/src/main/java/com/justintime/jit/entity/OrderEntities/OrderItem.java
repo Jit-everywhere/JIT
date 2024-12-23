@@ -7,12 +7,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.Audited;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
+@Audited
 @Table(name="order_item")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,16 +36,16 @@ public class OrderItem {
         @JoinColumn(name = "combo_id", nullable = false)
         private Combo combo;
 
-        @Column(nullable = false, columnDefinition = "int default 1")
+        @Column(name = "quantity", nullable = false, columnDefinition = "int default 1")
         private int quantity;
 
-        @Column(nullable = false, columnDefinition = "decimal(10,2) default 0.00")
+        @Column(name = "price", nullable = false, columnDefinition = "decimal(10,2) default 0.00")
         private BigDecimal price;
 
-        @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+        @Column(name = "created_dttm", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
         private LocalDateTime createdDttm;
 
-        @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+        @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
         private LocalDateTime updatedDttm;
 
 }

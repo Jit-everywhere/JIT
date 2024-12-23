@@ -1,12 +1,15 @@
 package com.justintime.jit.entity;
 
+import com.justintime.jit.entity.OrderEntities.Order;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Audited
 @Data
 @Table(name = "users")
 public class User {
@@ -48,7 +51,13 @@ public class User {
         @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
         private LocalDateTime updatedDttm;
 
+        @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+        private List<Order> orders;
+
         @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
         private List<Reservation> reservations;
+
+        @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+        private List<Admin> admins;
 
 }

@@ -1,14 +1,17 @@
 package com.justintime.jit.entity;
 
+import com.justintime.jit.entity.OrderEntities.Order;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Audited
 @Data
 @Table(name = "restaurants")
 @AllArgsConstructor
@@ -22,10 +25,6 @@ public class Restaurant {
         @Column(name = "restaurant_name", nullable = false)
         private String restaurantName;
 
-        @ManyToOne
-        @JoinColumn(name = "address_id",nullable = false)
-        private Address address;
-
         @Column(name = "contact_number")
         private String contactNumber;
 
@@ -38,12 +37,22 @@ public class Restaurant {
         @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
         private LocalDateTime updatedDttm;
 
+        @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+        private List<Address> addresses;
+
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-        private List<Food> menu;
+        private List<MenuItem> menu;
+
+        @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+        private List<Order> orders;
 
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
         private List<ShiftCapacity> shiftCapacities;
 
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
         private List<Reservation> reservations;
+
+        @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+        private List<Admin> admins;
+
 }

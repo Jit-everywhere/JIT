@@ -3,11 +3,14 @@ package com.justintime.jit.entity.PaymentEntities;
 import com.justintime.jit.entity.OrderEntities.Order;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.Audited;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
+@Audited
 @Table(name = "payment")
 @Data
 @Getter
@@ -20,7 +23,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
@@ -44,5 +47,8 @@ public class Payment {
 
     @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedDttm;
+
+    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL)
+    private List<Transaction> transactions;
 
 }

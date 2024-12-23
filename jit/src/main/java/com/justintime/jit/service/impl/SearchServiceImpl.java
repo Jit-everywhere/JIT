@@ -34,7 +34,7 @@ public class SearchServiceImpl implements SearchService {
 
             // Get associated foods
             List<String> foods = new ArrayList<>();
-            restaurant.getMenu().forEach(food -> foods.add(food.getFoodName()));
+            restaurant.getMenu().forEach(food -> foods.add(food.getFood().getFoodName()));
             dto.setAssociatedNames(foods);
 
             results.add(dto);

@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface FoodRepository extends BaseRepository<Food, Long> {
     List<Food> findByFoodNameContaining(String restaurantName);
-
 }

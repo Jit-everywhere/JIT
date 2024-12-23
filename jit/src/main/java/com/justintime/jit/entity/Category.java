@@ -3,17 +3,19 @@ package com.justintime.jit.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Audited
 @Data
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="Category")
+@Table(name="category")
 public class Category {
 
     @Id

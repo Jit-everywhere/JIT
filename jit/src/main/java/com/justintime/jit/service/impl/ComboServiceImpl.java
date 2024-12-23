@@ -29,7 +29,7 @@ public class ComboServiceImpl extends BaseServiceImpl<Combo,Long> implements Com
     public Combo updateCombo(Long id, Combo updatedCombo) {
         return comboRepository.findById(id)
                 .map(combo -> {
-                    combo.setComboItemId(updatedCombo.getComboItemId());
+                    combo.setComboItemSet(updatedCombo.getComboItemSet());
                     combo.setPrice(updatedCombo.getPrice());
                     combo.setStock(updatedCombo.getStock());
                     combo.setUpdatedDttm(updatedCombo.getUpdatedDttm());

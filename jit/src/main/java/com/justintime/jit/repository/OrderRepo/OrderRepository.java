@@ -1,8 +1,8 @@
-package com.justintime.jit.repository;
+package com.justintime.jit.repository.OrderRepo;
 
 import com.justintime.jit.entity.OrderEntities.Order;
+import com.justintime.jit.repository.BaseRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.time.LocalDateTime;
 
