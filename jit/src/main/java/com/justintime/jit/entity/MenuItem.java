@@ -1,5 +1,6 @@
 package com.justintime.jit.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.justintime.jit.entity.ComboEntities.ComboItem;
 import com.justintime.jit.entity.OrderEntities.OrderItem;
 import jakarta.persistence.*;
@@ -25,10 +26,12 @@ public class MenuItem {
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @JsonIgnoreProperties("menu")
     private Restaurant restaurant;
 
     @ManyToOne
     @JoinColumn(name = "food_id", nullable = false)
+    @JsonIgnoreProperties("menuItems")
     private Food food;
 
     @Column(name = "price", nullable = false)
@@ -38,10 +41,10 @@ public class MenuItem {
     private Integer stock;
 
     @Column(name = "created_dttm", nullable = false)
-    private LocalDateTime createdDttm;
+    private LocalDateTime createdDttm = LocalDateTime.now();
 
     @Column(name = "updated_dttm", nullable = false)
-    private LocalDateTime updatedDttm;
+    private LocalDateTime updatedDttm = LocalDateTime.now();
 
     @OneToMany(mappedBy = "menuItem", cascade = CascadeType.ALL)
     private List<ComboItem> comboItems;

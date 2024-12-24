@@ -38,10 +38,10 @@ public class ComboItem {
     @JoinColumn(name="menu_item_id",nullable = false)
     private MenuItem menuItem;
 
-    @Column(name = "created_dttm", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "created_dttm", nullable = false, updatable = false)
     private LocalDateTime createdDttm = LocalDateTime.now();
 
-    @Column(name = "updated_dttm", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "updated_dttm", nullable = false, updatable = false)
     private LocalDateTime updatedDttm = LocalDateTime.now();
 
 }

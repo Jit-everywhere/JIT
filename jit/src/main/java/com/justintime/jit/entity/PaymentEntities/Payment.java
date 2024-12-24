@@ -39,14 +39,14 @@ public class Payment {
     @Column(name = "payment_status", nullable = false)
     private String paymentStatus = "PENDING";
 
-    @Column(name = "payment_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime paymentDate;
+    @Column(name = "payment_date", nullable = false, updatable = false)
+    private LocalDateTime paymentDate = LocalDateTime.now();
 
     @Column(name = "updated_by")
     private String updatedBy;
 
-    @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime updatedDttm;
+    @Column(name = "updated_dttm", nullable = false)
+    private LocalDateTime updatedDttm = LocalDateTime.now();
 
     @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL)
     private List<Transaction> transactions;

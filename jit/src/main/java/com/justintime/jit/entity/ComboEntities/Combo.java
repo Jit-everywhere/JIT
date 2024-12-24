@@ -37,10 +37,10 @@ public class Combo {
     @Column(name = "stock", nullable = false, columnDefinition = "INT DEFAULT 0")
     private Integer stock = 0;
 
-    @Column(name = "created_dttm", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "created_dttm", nullable = false, updatable = false)
     private LocalDateTime createdDttm = LocalDateTime.now();
 
-    @Column(name = "updated_dttm", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "updated_dttm", nullable = false, updatable = false)
     private LocalDateTime updatedDttm = LocalDateTime.now();
 
     @OneToMany(mappedBy = "combo",cascade = CascadeType.ALL)
