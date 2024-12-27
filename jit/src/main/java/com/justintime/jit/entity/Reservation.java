@@ -1,9 +1,12 @@
 package com.justintime.jit.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
@@ -23,14 +26,17 @@ public class Reservation {
 
         @ManyToOne
         @JoinColumn(name = "customer_id", nullable = false)
+        @JsonIgnoreProperties("reservations")
         private User customer;
 
         @ManyToOne
         @JoinColumn(name = "restaurant_id", nullable = false)
+        @JsonIgnoreProperties("reservations")
         private Restaurant restaurant;
 
         @ManyToOne
         @JoinColumn(name = "shift_capacity_id", nullable = false)
+        @JsonIgnoreProperties("reservations")
         private ShiftCapacity shiftCapacity;
 
         @Column(name = "reservation_start", nullable = false)
@@ -43,15 +49,18 @@ public class Reservation {
         private Integer headCount;
 
         @Column(name = "status", nullable = false, length = 50)
-        private String status = "PENDING";
+        private String status;
 
+        @CreationTimestamp
         @Column(name = "created_dttm", nullable = false, updatable = false)
-        private LocalDateTime createdDttm = LocalDateTime.now();
+        private LocalDateTime createdDttm;
 
+        @UpdateTimestamp
         @Column(name = "updated_dttm", nullable = false)
-        private LocalDateTime updatedDttm = LocalDateTime.now();
+        private LocalDateTime updatedDttm;
 
         @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
+        @JsonIgnoreProperties("reservation")
         private List<ReservationActivity> reservationActivities;
 
 }

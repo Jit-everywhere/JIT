@@ -1,7 +1,10 @@
 package com.justintime.jit.entity.PaymentEntities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import java.math.BigDecimal;
@@ -23,6 +26,7 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "payment_id", nullable = false)
+    @JsonIgnoreProperties("transactions")
     private Payment payment;
 
     @Column(name = "transaction_type", nullable = false, length = 50)
@@ -32,7 +36,7 @@ public class Transaction {
     private BigDecimal transactionAmount;
 
     @Column(name = "transaction_status", nullable = false, length = 50)
-    private String transactionStatus = "PENDING";
+    private String transactionStatus;
 
     @Column(name = "transaction_date", nullable = false, updatable = false)
     private LocalDateTime transactionDate = LocalDateTime.now();
@@ -40,7 +44,9 @@ public class Transaction {
     @Column(name = "updated_by", length = 100)
     private String updatedBy;
 
+    @UpdateTimestamp
     @Column(name = "updated_dttm", nullable = false)
-    private LocalDateTime updatedDttm = LocalDateTime.now();
+    private LocalDateTime updatedDttm;
+
 }
 

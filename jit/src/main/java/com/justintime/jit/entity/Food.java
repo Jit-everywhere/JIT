@@ -34,19 +34,14 @@ public class Food {
 
     @CreationTimestamp
     @Column(name = "created_dttm", nullable = false, updatable = false)
-    private LocalDateTime createdDttm = LocalDateTime.now();
+    private LocalDateTime createdDttm;
 
     @UpdateTimestamp
     @Column(name = "updated_dttm", nullable = false)
-    private LocalDateTime updatedDttm = LocalDateTime.now();
+    private LocalDateTime updatedDttm;
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("food")
     private List<MenuItem> menuItems;
-
-    @PreUpdate
-    private void setUpdatedAt() {
-        this.updatedDttm = LocalDateTime.now();
-    }
 
 }

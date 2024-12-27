@@ -1,9 +1,12 @@
 package com.justintime.jit.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
@@ -24,6 +27,7 @@ public class ShiftCapacity {
 
         @ManyToOne
         @JoinColumn(name = "restaurant_id", nullable = false)
+        @JsonIgnoreProperties("shiftCapacities")
         private Restaurant restaurant;
 
         @Column(name = "start_time", nullable = false)
@@ -35,15 +39,17 @@ public class ShiftCapacity {
         @Column(name = "total_capacity", nullable = false)
         private Integer totalCapacity;
 
-        @Column(name = "created_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-        private LocalDateTime createdDttm = LocalDateTime.now();
+        @CreationTimestamp
+        @Column(name = "created_dttm", nullable = false, updatable = false)
+        private LocalDateTime createdDttm;
 
-        @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-        private LocalDateTime updatedDttm = LocalDateTime.now();
+        @UpdateTimestamp
+        @Column(name = "updated_dttm", nullable = false)
+        private LocalDateTime updatedDttm;
 
         @OneToMany(mappedBy = "shiftCapacity", cascade = CascadeType.ALL)
+        @JsonIgnoreProperties("shiftCapacity")
         private List<Reservation> reservations;
-
 
 }
 

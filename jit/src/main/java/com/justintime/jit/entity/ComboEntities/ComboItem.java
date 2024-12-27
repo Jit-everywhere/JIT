@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
@@ -38,10 +40,12 @@ public class ComboItem {
     @JoinColumn(name="menu_item_id",nullable = false)
     private MenuItem menuItem;
 
+    @CreationTimestamp
     @Column(name = "created_dttm", nullable = false, updatable = false)
-    private LocalDateTime createdDttm = LocalDateTime.now();
+    private LocalDateTime createdDttm;
 
-    @Column(name = "updated_dttm", nullable = false, updatable = false)
-    private LocalDateTime updatedDttm = LocalDateTime.now();
+    @UpdateTimestamp
+    @Column(name = "updated_dttm", nullable = false)
+    private LocalDateTime updatedDttm;
 
 }

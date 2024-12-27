@@ -1,10 +1,13 @@
 package com.justintime.jit.entity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.justintime.jit.entity.OrderEntities.Order;
 import com.justintime.jit.entity.PaymentEntities.Payment;
 import com.justintime.jit.entity.Restaurant;
 import com.justintime.jit.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
@@ -21,6 +24,7 @@ public class ReservationActivity {
 
     @ManyToOne
     @JoinColumn(name = "reservation_id", nullable = false)
+    @JsonIgnoreProperties("reservationActivities")
     private Reservation reservation;
 
     @Column(name = "change_log", nullable = false, length = 50)
@@ -29,6 +33,8 @@ public class ReservationActivity {
     @Column(name = "updated_by", nullable = false, length = 100)
     private String updatedBy;
 
-    @Column(name = "updated_dttm", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime updatedDttm = LocalDateTime.now();
+    @UpdateTimestamp
+    @Column(name = "updated_dttm", nullable = false)
+    private LocalDateTime updatedDttm;
+
 }
