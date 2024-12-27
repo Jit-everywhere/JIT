@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
@@ -40,15 +42,20 @@ public class MenuItem {
     @Column(name = "stock", nullable = false)
     private Integer stock;
 
-    @Column(name = "created_dttm", nullable = false)
-    private LocalDateTime createdDttm = LocalDateTime.now();
+    @CreationTimestamp
+    @Column(name = "created_dttm", nullable = false, updatable = false)
+    private LocalDateTime createdDttm;
 
+    @UpdateTimestamp
     @Column(name = "updated_dttm", nullable = false)
-    private LocalDateTime updatedDttm = LocalDateTime.now();
+    private LocalDateTime updatedDttm;
 
     @OneToMany(mappedBy = "menuItem", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("menuItem")
     private List<ComboItem> comboItems;
 
     @OneToMany(mappedBy = "menuItem", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("menuItem")
     private List<OrderItem> orderItems;
+
 }

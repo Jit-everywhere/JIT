@@ -1,6 +1,7 @@
 package com.justintime.jit.entity.ComboEntities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.justintime.jit.entity.OrderEntities.Order;
 import com.justintime.jit.entity.OrderEntities.OrderItem;
 import jakarta.persistence.Entity;
@@ -9,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
@@ -37,13 +40,16 @@ public class Combo {
     @Column(name = "stock", nullable = false, columnDefinition = "INT DEFAULT 0")
     private Integer stock = 0;
 
+    @CreationTimestamp
     @Column(name = "created_dttm", nullable = false, updatable = false)
-    private LocalDateTime createdDttm = LocalDateTime.now();
+    private LocalDateTime createdDttm;
 
-    @Column(name = "updated_dttm", nullable = false, updatable = false)
-    private LocalDateTime updatedDttm = LocalDateTime.now();
+    @UpdateTimestamp
+    @Column(name = "updated_dttm", nullable = false)
+    private LocalDateTime updatedDttm;
 
     @OneToMany(mappedBy = "combo",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("combo")
     private List<OrderItem> orderItems;
 
 }

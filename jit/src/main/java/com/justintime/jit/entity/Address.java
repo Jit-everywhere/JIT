@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
@@ -20,6 +22,11 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    @JsonIgnoreProperties("addresses")
+    private Restaurant restaurant;
 
     @Column(name = "address_line1", nullable = false, length = 150)
     private String addressLine1;
@@ -42,15 +49,13 @@ public class Address {
     @Column(name = "longitude", nullable = false)
     private Double longitude;
 
-    @Column(name = "created_dttm", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime createdDttm = LocalDateTime.now();
+    @CreationTimestamp
+    @Column(name = "created_dttm", nullable = false, updatable = false)
+    private LocalDateTime createdDttm;
 
-    @Column(name = "updated_dttm", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime updatedDttm = LocalDateTime.now();
+    @UpdateTimestamp
+    @Column(name = "updated_dttm", nullable = false)
+    private LocalDateTime updatedDttm;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    @JsonIgnoreProperties("addresses")
-    private Restaurant restaurant;
 }
 

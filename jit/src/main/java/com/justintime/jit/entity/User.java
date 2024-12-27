@@ -1,8 +1,12 @@
 package com.justintime.jit.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.justintime.jit.entity.Enums.Role;
 import com.justintime.jit.entity.OrderEntities.Order;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
@@ -42,22 +46,28 @@ public class User {
         @Column(name = "password_hash", nullable = false)
         private String passwordHash;
 
+        @Enumerated(EnumType.STRING)
         @Column(name = "role", nullable = false)
-        private String role;
+        private Role role;
 
-        @Column(name = "created_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-        private LocalDateTime createdDttm = LocalDateTime.now();
+        @CreationTimestamp
+        @Column(name = "created_dttm", nullable = false, updatable = false)
+        private LocalDateTime createdDttm;
 
-        @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-        private LocalDateTime updatedDttm = LocalDateTime.now();
+        @UpdateTimestamp
+        @Column(name = "updated_dttm", nullable = false)
+        private LocalDateTime updatedDttm;
 
         @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+        @JsonIgnoreProperties("customer")
         private List<Order> orders;
 
         @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+        @JsonIgnoreProperties("customer")
         private List<Reservation> reservations;
 
         @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+        @JsonIgnoreProperties("user")
         private List<Admin> admins;
 
 }

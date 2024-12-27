@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
@@ -32,11 +34,13 @@ public class Restaurant {
         @Column(name = "email")
         private String email;
 
-        @Column(name = "created_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-        private LocalDateTime createdDttm = LocalDateTime.now();
+        @CreationTimestamp
+        @Column(name = "created_dttm", nullable = false, updatable = false)
+        private LocalDateTime createdDttm;
 
-        @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-        private LocalDateTime updatedDttm = LocalDateTime.now();
+        @UpdateTimestamp
+        @Column(name = "updated_dttm", nullable = false)
+        private LocalDateTime updatedDttm;
 
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
         @JsonIgnoreProperties("restaurant")
@@ -47,15 +51,19 @@ public class Restaurant {
         private List<MenuItem> menu;
 
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+        @JsonIgnoreProperties("restaurant")
         private List<Order> orders;
 
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+        @JsonIgnoreProperties("restaurant")
         private List<ShiftCapacity> shiftCapacities;
 
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+        @JsonIgnoreProperties("restaurant")
         private List<Reservation> reservations;
 
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+        @JsonIgnoreProperties("restaurant")
         private List<Admin> admins;
 
 }

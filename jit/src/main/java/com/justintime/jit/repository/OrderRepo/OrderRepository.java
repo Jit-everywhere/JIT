@@ -19,5 +19,5 @@ public interface OrderRepository extends BaseRepository<Order, Long> {
     List<Order> findByStatus(String status);
 
     // Get orders within a time range
-    List<Order> findByOrderTimeBetween(LocalDateTime startTime, LocalDateTime endTime);
+    List<Order> findByOrderDateBetween(LocalDateTime startTime, LocalDateTime endTime);
 }

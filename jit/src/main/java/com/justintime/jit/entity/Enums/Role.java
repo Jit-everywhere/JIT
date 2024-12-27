@@ -1,4 +1,4 @@
-package com.justintime.jit.entity;
+package com.justintime.jit.entity.Enums;
 
 public enum Role {
     ADMIN,

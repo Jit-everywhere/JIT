@@ -30,13 +30,16 @@ public class Category {
     @Column(name="category_name",nullable = false)
     private String categoryName;
 
+    @CreationTimestamp
     @Column(name = "created_dttm", nullable = false, updatable = false)
-    private LocalDateTime createdDttm = LocalDateTime.now();
+    private LocalDateTime createdDttm;
 
+    @UpdateTimestamp
     @Column(name = "updated_dttm", nullable = false)
-    private LocalDateTime updatedDttm = LocalDateTime.now();
+    private LocalDateTime updatedDttm;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("category")
     private List<Food> foods;
+
 }

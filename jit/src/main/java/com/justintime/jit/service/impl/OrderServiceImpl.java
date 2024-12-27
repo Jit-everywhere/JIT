@@ -1,5 +1,6 @@
 package com.justintime.jit.service.impl;
 
+import com.justintime.jit.entity.Enums.OrderStatus;
 import com.justintime.jit.entity.OrderEntities.Order;
 import com.justintime.jit.entity.Restaurant;
 import com.justintime.jit.exception.ResourceNotFoundException;
@@ -43,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order updateOrderStatus(Long id, String status) {
+    public Order updateOrderStatus(Long id, OrderStatus status) {
         Order existingOrder = getOrderById(id);
 
         existingOrder.setStatus(status);  // Update the order's status
