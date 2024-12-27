@@ -1,7 +1,11 @@
 package com.justintime.jit.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
@@ -23,17 +27,21 @@ public class Food {
     @Column(name="description",nullable = false)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
+    @JsonIgnoreProperties("foods")
     private Category category;
 
-    @Column(name = "created_dttm", updatable = false)
+    @CreationTimestamp
+    @Column(name = "created_dttm", nullable = false, updatable = false)
     private LocalDateTime createdDttm = LocalDateTime.now();
 
-    @Column(name = "updated_dttm")
+    @UpdateTimestamp
+    @Column(name = "updated_dttm", nullable = false)
     private LocalDateTime updatedDttm = LocalDateTime.now();
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("food")
     private List<MenuItem> menuItems;
 
     @PreUpdate

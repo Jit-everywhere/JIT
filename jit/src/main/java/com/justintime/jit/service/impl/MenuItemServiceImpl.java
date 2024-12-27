@@ -30,6 +30,8 @@ import java.util.List;
 
         public MenuItem updateMenuItem(Long id, MenuItem updatedItem) {
             MenuItem existingItem = menuItemRepository.findById(id).orElseThrow(() -> new RuntimeException("MenuItem not found"));
+            existingItem.setRestaurant(updatedItem.getRestaurant());
+            existingItem.setFood(updatedItem.getFood());
             existingItem.setPrice(updatedItem.getPrice());
             existingItem.setStock(updatedItem.getStock());
             existingItem.setUpdatedDttm(LocalDateTime.now());

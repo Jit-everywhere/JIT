@@ -46,10 +46,10 @@ public class User {
         private String role;
 
         @Column(name = "created_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-        private LocalDateTime createdDttm;
+        private LocalDateTime createdDttm = LocalDateTime.now();
 
         @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-        private LocalDateTime updatedDttm;
+        private LocalDateTime updatedDttm = LocalDateTime.now();
 
         @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
         private List<Order> orders;

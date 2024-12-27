@@ -1,5 +1,6 @@
 package com.justintime.jit.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,13 +43,14 @@ public class Address {
     private Double longitude;
 
     @Column(name = "created_dttm", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime createdDttm;
+    private LocalDateTime createdDttm = LocalDateTime.now();
 
     @Column(name = "updated_dttm", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime updatedDttm;
+    private LocalDateTime updatedDttm = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @JsonIgnoreProperties("addresses")
     private Restaurant restaurant;
 }
 

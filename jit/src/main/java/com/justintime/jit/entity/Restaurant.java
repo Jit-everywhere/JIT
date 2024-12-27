@@ -1,5 +1,6 @@
 package com.justintime.jit.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.justintime.jit.entity.OrderEntities.Order;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,15 +33,17 @@ public class Restaurant {
         private String email;
 
         @Column(name = "created_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-        private LocalDateTime createdDttm;
+        private LocalDateTime createdDttm = LocalDateTime.now();
 
         @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-        private LocalDateTime updatedDttm;
+        private LocalDateTime updatedDttm = LocalDateTime.now();
 
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+        @JsonIgnoreProperties("restaurant")
         private List<Address> addresses;
 
-        @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+        @JsonIgnoreProperties("restaurant")
         private List<MenuItem> menu;
 
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)

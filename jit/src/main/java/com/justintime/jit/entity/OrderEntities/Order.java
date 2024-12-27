@@ -37,10 +37,10 @@ public class Order {
     @Column(name = "batch_time", nullable = false)
     private LocalDateTime batchTime;
 
-    @Column(name = "created_dttm", updatable = false)
+    @Column(name = "created_dttm", nullable = false, updatable = false)
     private LocalDateTime createdDttm = LocalDateTime.now();
 
-    @Column(name = "updated_dttm")
+    @Column(name = "updated_dttm", nullable = false)
     private LocalDateTime updatedDttm = LocalDateTime.now();
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

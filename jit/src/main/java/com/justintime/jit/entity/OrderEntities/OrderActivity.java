@@ -28,6 +28,6 @@ public class OrderActivity {
     @Column(name = "updated_by", nullable = false, length = 100)
     private String updatedBy;
 
-    @Column(name = "updated_dttm", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime updatedDttm;
+    @Column(name = "updated_dttm", nullable = false)
+    private LocalDateTime updatedDttm = LocalDateTime.now();
 }

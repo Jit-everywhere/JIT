@@ -42,10 +42,10 @@ public class OrderItem {
         @Column(name = "price", nullable = false, columnDefinition = "decimal(10,2) default 0.00")
         private BigDecimal price;
 
-        @Column(name = "created_dttm", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-        private LocalDateTime createdDttm;
+        @Column(name = "created_dttm", nullable = false, updatable = false)
+        private LocalDateTime createdDttm = LocalDateTime.now();
 
-        @Column(name = "updated_dttm", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-        private LocalDateTime updatedDttm;
+        @Column(name = "updated_dttm", nullable = false)
+        private LocalDateTime updatedDttm = LocalDateTime.now();
 
 }

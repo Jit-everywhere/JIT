@@ -37,6 +37,7 @@ public class AddressServiceImpl implements AddressService {
                 address.setLatitude(addressDetails.getLatitude());
                 address.setLongitude(addressDetails.getLongitude());
                 address.setUpdatedDttm(addressDetails.getUpdatedDttm());
+                address.setRestaurant(addressDetails.getRestaurant());
                 return addressRepository.save(address);
             }).orElseThrow(() -> new RuntimeException("Address not found with id: " + id));
         }

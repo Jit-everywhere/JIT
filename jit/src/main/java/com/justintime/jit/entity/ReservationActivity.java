@@ -30,5 +30,5 @@ public class ReservationActivity {
     private String updatedBy;
 
     @Column(name = "updated_dttm", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime updatedDttm;
+    private LocalDateTime updatedDttm = LocalDateTime.now();
 }

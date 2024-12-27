@@ -34,7 +34,7 @@ public class Transaction {
     @Column(name = "transaction_status", nullable = false, length = 50)
     private String transactionStatus = "PENDING";
 
-    @Column(name = "transaction_date", nullable = false)
+    @Column(name = "transaction_date", nullable = false, updatable = false)
     private LocalDateTime transactionDate = LocalDateTime.now();
 
     @Column(name = "updated_by", length = 100)
