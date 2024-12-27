@@ -50,12 +50,6 @@ dependencies {
 
 	// Apache Commons Text (for additional utilities)
 	implementation 'org.apache.commons:commons-text:1.10.0'
-
-	//Spot bugs
-	spotbugs 'com.github.spotbugs:spotbugs:4.8.6'
-
-	//OWASP Dependency Check
-	implementation 'org.owasp:dependency-check-gradle:10.0.3'
 }
 
 dependencyManagement {
