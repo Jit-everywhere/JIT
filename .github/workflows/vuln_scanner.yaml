@@ -1,0 +1,79 @@
+name: Vulnerability Scan
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  frontend_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Frontend Dependencies
+        working-directory: ./ui
+        run: npm install
+
+      - name: Run ESLint
+        working-directory: ./ui
+        run: npm run lint
+
+      - name: Run audit-ci for npm
+        working-directory: ./ui
+        run: npx audit-ci --moderate
+
+      - name: Basic XSS Pattern Scan (Example)
+        working-directory: ./ui
+        # run: grep -rniE "(innerHTML|dangerouslySetInnerHTML)" ./ui/src
+        run: |
+          if grep -rniE "(innerHTML|dangerouslySetInnerHTML)" ./ui/src; then
+            echo "Match found."
+          else
+            echo "No match found. Ignoring."
+          fi
+
+  backend_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for Gradlew
+        working-directory: ./jit
+        run: chmod +x ./gradlew
+
+      - name: Install Backend Dependencies (Gradle)
+        working-directory: ./jit
+        run: ./gradlew assemble
+
+      - name: Run SpotBugs
+        working-directory: ./jit
+        run: ./gradlew spotbugsMain
+
+      - name: Run OWASP Dependency-Check
+        working-directory: ./jit
+        run: ./gradlew dependencyCheckAnalyze -Ddependency-check.cache-dir=./cache
+
+      - name: Upload OWASP Dependency-Check Report (HTML)
+        uses: actions/upload-artifact@v3
+        with:
+          name: owasp-dependency-check-report
+          path: ./jit/build/reports/dependency-check/dependency-check-report.html
+
+      - name: Basic SQL Injection Pattern Scan (Example)
+        working-directory: ./jit
+        run: grep -rniE "DriverManager.getConnection" ./jit/src/main/java
