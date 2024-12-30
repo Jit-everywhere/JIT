@@ -51,31 +51,31 @@ public class Combo {
     @JsonIgnoreProperties("combo")
     private List<OrderItem> orderItems;
 
-    // Make comboItemSet immutable to protect internal state
+    // Getter for comboItemSet returns an unmodifiable set to avoid external modifications
     public Set<ComboItem> getComboItemSet() {
         return Collections.unmodifiableSet(comboItemSet);
     }
 
-    // Avoid direct modification of comboItemSet, use defensive copying in setter
+    // Setter for comboItemSet ensures defensive copy to prevent modification of the internal state
     public void setComboItemSet(Set<ComboItem> comboItemSet) {
         this.comboItemSet = comboItemSet != null
-                ? new HashSet<>(comboItemSet) // Defensive copy to protect internal state
+                ? new HashSet<>(comboItemSet) // Defensive copy
                 : new HashSet<>();
     }
 
-    // Make orderItems immutable to protect internal state
+    // Getter for orderItems returns an unmodifiable list to avoid external modifications
     public List<OrderItem> getOrderItems() {
         return Collections.unmodifiableList(orderItems);
     }
 
-    // Avoid direct modification of orderItems, use defensive copying in setter
+    // Setter for orderItems ensures defensive copy to prevent modification of the internal state
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems != null
                 ? orderItems.stream().map(item -> new OrderItem(item)).collect(Collectors.toList()) // Defensive copy
                 : null;
     }
 
-    // Copy constructor that performs deep copying
+    // Copy constructor to create a deep copy of the Combo object and its mutable fields
     public Combo(Combo other) {
         this.id = other.id;
         this.price = other.price;
@@ -83,14 +83,28 @@ public class Combo {
         this.createdDttm = other.createdDttm;
         this.updatedDttm = other.updatedDttm;
 
-        // Deep copy of comboItemSet to ensure mutable objects are not shared
+        // Deep copy of comboItemSet to avoid sharing mutable objects
         this.comboItemSet = other.comboItemSet != null
                 ? other.comboItemSet.stream().map(item -> new ComboItem(item)).collect(Collectors.toSet())
                 : new HashSet<>();
 
-        // Deep copy of orderItems to ensure mutable objects are not shared
+        // Deep copy of orderItems to avoid sharing mutable objects
         this.orderItems = other.orderItems != null
                 ? other.orderItems.stream().map(orderItem -> new OrderItem(orderItem)).collect(Collectors.toList())
                 : null;
+    }
+
+    // hashCode() and equals() method should no longer have redundant null checks
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Combo combo = (Combo) o;
+        return id != null && id.equals(combo.id);  // compare by id, assuming id is the unique identifier
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;  // hash based on id
     }
 }
