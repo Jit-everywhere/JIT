@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Audited
-@Table(name="order_item")
+@Table(name = "order_item")
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderItem {
@@ -56,4 +56,16 @@ public class OrderItem {
         @Column(name = "updated_dttm", nullable = false)
         private LocalDateTime updatedDttm;
 
+        // Copy Constructor
+        public OrderItem(OrderItem other) {
+                this.id = null; // New instance should not have the same ID
+                this.order = other.order; // Shallow copy, assuming `Order` is managed elsewhere
+                this.menuItem = new MenuItem(other.menuItem); // Deep copy of MenuItem
+                this.combo = new Combo(other.combo); // Deep copy of Combo
+                this.quantity = other.quantity;
+                this.price = other.price;
+                this.createdDttm = other.createdDttm;
+                this.updatedDttm = other.updatedDttm;
+        }
 }
+
