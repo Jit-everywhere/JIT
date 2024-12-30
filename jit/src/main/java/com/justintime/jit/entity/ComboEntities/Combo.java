@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @Setter
 @Table(name = "combo")
 @NoArgsConstructor
-@AllArgsConstructor
 public class Combo {
 
     @Id
@@ -84,6 +83,25 @@ public class Combo {
         // Deep copy of orderItems to avoid sharing mutable objects
         this.orderItems = other.orderItems != null
                 ? other.orderItems.stream().map(OrderItem::new).collect(Collectors.toList())
+                : null;
+    }
+
+    // Updated constructor with defensive copying
+    public Combo(Long id, Set<ComboItem> comboItemSet, Double price, Integer stock, LocalDateTime createdDttm, LocalDateTime updatedDttm, List<OrderItem> orderItems) {
+        this.id = id;
+        this.price = price;
+        this.stock = stock;
+        this.createdDttm = createdDttm;
+        this.updatedDttm = updatedDttm;
+
+        // Defensive copy of comboItemSet
+        this.comboItemSet = comboItemSet != null
+                ? comboItemSet.stream().map(ComboItem::new).collect(Collectors.toSet())
+                : new HashSet<>();
+
+        // Defensive copy of orderItems
+        this.orderItems = orderItems != null
+                ? orderItems.stream().map(OrderItem::new).collect(Collectors.toList())
                 : null;
     }
 }
