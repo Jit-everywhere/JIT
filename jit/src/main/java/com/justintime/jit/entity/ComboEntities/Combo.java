@@ -1,14 +1,11 @@
 package com.justintime.jit.entity.ComboEntities;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.justintime.jit.entity.OrderEntities.Order;
 import com.justintime.jit.entity.OrderEntities.OrderItem;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -59,11 +56,26 @@ public class Combo {
         return Collections.unmodifiableSet(comboItemSet);
     }
 
-    // To avoid direct modification, the setter is omitted or can be customized for defensive copying
+    // Avoid direct modification of comboItemSet, use defensive copying in setter
     public void setComboItemSet(Set<ComboItem> comboItemSet) {
-        this.comboItemSet = comboItemSet != null ? new HashSet<>(comboItemSet) : new HashSet<>();
+        this.comboItemSet = comboItemSet != null
+                ? new HashSet<>(comboItemSet) // Defensive copy to protect internal state
+                : new HashSet<>();
     }
 
+    // Make orderItems immutable to protect internal state
+    public List<OrderItem> getOrderItems() {
+        return Collections.unmodifiableList(orderItems);
+    }
+
+    // Avoid direct modification of orderItems, use defensive copying in setter
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems != null
+                ? orderItems.stream().map(item -> new OrderItem(item)).collect(Collectors.toList()) // Defensive copy
+                : null;
+    }
+
+    // Copy constructor that performs deep copying
     public Combo(Combo other) {
         this.id = other.id;
         this.price = other.price;
@@ -76,10 +88,9 @@ public class Combo {
                 ? other.comboItemSet.stream().map(item -> new ComboItem(item)).collect(Collectors.toSet())
                 : new HashSet<>();
 
-        // If you have any collections like orderItems, make sure to deep copy them as well
+        // Deep copy of orderItems to ensure mutable objects are not shared
         this.orderItems = other.orderItems != null
                 ? other.orderItems.stream().map(orderItem -> new OrderItem(orderItem)).collect(Collectors.toList())
                 : null;
     }
 }
-
