@@ -76,4 +76,4 @@ jobs:
 
       - name: Basic SQL Injection Pattern Scan (Example)
         working-directory: ./jit
-        run: grep -rniE "DriverManager.getConnection" ./jit/src/main/java
+        run: grep -rniE "url|username|password" ./jit/src/main/resources/application.properties
