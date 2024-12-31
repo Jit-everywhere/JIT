@@ -3,8 +3,9 @@ package com.justintime.jit.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
@@ -13,7 +14,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Audited
-@Data
+@Getter
+@Setter
 @Table(name = "address")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -57,5 +59,17 @@ public class Address {
     @Column(name = "updated_dttm", nullable = false)
     private LocalDateTime updatedDttm;
 
+    public Address(Address other) {
+        this.id = other.id;
+        this.restaurant = other.restaurant != null ? new Restaurant(other.restaurant) : null;
+        this.addressLine1 = other.addressLine1;
+        this.addressLine2 = other.addressLine2;
+        this.city = other.city;
+        this.state = other.state;
+        this.country = other.country;
+        this.latitude = other.latitude;
+        this.longitude = other.longitude;
+        this.createdDttm = other.createdDttm;
+        this.updatedDttm = other.updatedDttm;
+    }
 }
-

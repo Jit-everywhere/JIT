@@ -3,19 +3,19 @@ package com.justintime.jit.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.justintime.jit.entity.OrderEntities.Order;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Audited
-@Data
+@Getter
+@Setter
 @Table(name = "restaurants")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -66,4 +66,18 @@ public class Restaurant {
         @JsonIgnoreProperties("restaurant")
         private List<Admin> admins;
 
+        public Restaurant(Restaurant other) {
+                this.id = other.id;
+                this.restaurantName = other.restaurantName;
+                this.contactNumber = other.contactNumber;
+                this.email = other.email;
+                this.createdDttm = other.createdDttm;
+                this.updatedDttm = other.updatedDttm;
+                this.addresses = other.addresses != null ? other.addresses.stream().map(Address::new).collect(Collectors.toList()) : null;
+                this.menu = other.menu != null ? other.menu.stream().map(MenuItem::new).collect(Collectors.toList()) : null;
+                this.orders = other.orders != null ? other.orders.stream().map(Order::new).collect(Collectors.toList()) : null;
+                this.shiftCapacities = other.shiftCapacities != null ? other.shiftCapacities.stream().map(ShiftCapacity::new).collect(Collectors.toList()) : null;
+                this.reservations = other.reservations != null ? other.reservations.stream().map(Reservation::new).collect(Collectors.toList()) : null;
+                this.admins = other.admins != null ? other.admins.stream().map(Admin::new).collect(Collectors.toList()) : null;
+        }
 }
