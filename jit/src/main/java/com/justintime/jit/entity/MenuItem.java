@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.justintime.jit.entity.ComboEntities.ComboItem;
 import com.justintime.jit.entity.OrderEntities.OrderItem;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
@@ -61,8 +63,8 @@ public class MenuItem {
     // Copy Constructor
     public MenuItem(MenuItem other) {
         this.id = null; // New instance should not copy the ID (leave it null for persistence)
-        this.restaurant = other.restaurant; // Shallow copy, assuming `restaurant` is immutable or managed elsewhere
-        this.food = other.food; // Shallow copy, assuming `food` is immutable or managed elsewhere
+        this.restaurant = other.restaurant != null ? new Restaurant(other.restaurant) : null;
+        this.food = other.food != null ? new Food(other.food) : null;
         this.price = other.price;
         this.stock = other.stock;
         this.createdDttm = other.createdDttm;
@@ -77,6 +79,22 @@ public class MenuItem {
         this.orderItems = other.orderItems.stream()
                 .map(OrderItem::new) // Assuming OrderItem also has a copy constructor
                 .toList();
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant != null ? new Restaurant(restaurant) : null; // Defensive copy
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant != null ? new Restaurant(restaurant) : null; // Defensive copy
+    }
+
+    public Food getFood() {
+        return food != null ? new Food(food) : null; // Defensive copy
+    }
+
+    public void setFood(Food food) {
+        this.food = food != null ? new Food(food) : null; // Defensive copy
     }
 
     public List<ComboItem> getComboItems() {

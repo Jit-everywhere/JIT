@@ -2,7 +2,6 @@ package com.justintime.jit.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -58,6 +57,7 @@ public class Address {
     @Column(name = "updated_dttm", nullable = false)
     private LocalDateTime updatedDttm;
 
+    // Copy Constructor
     public Address(Address other) {
         this.id = other.id;
         this.restaurant = other.restaurant != null ? new Restaurant(other.restaurant) : null;
@@ -70,5 +70,13 @@ public class Address {
         this.longitude = other.longitude;
         this.createdDttm = other.createdDttm;
         this.updatedDttm = other.updatedDttm;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant != null ? new Restaurant(restaurant) : null; // Defensive copy
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant != null ? new Restaurant(restaurant) : null; // Defensive copy
     }
 }
