@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 @Entity
 @Audited
 @Table(name = "order_item")
-@AllArgsConstructor
 @NoArgsConstructor
 public class OrderItem {
 

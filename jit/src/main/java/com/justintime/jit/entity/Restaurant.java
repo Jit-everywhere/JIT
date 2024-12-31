@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Table(name = "restaurants")
-@AllArgsConstructor
 @NoArgsConstructor
 public class Restaurant {
 

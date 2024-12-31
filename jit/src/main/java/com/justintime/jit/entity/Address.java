@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name = "address")
 @NoArgsConstructor
-@AllArgsConstructor
 public class Address {
 
     @Id

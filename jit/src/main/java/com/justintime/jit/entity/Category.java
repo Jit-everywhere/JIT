@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name="category")
 public class Category {
 

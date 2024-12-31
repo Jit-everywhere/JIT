@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.justintime.jit.entity.ComboEntities.ComboItem;
 import com.justintime.jit.entity.OrderEntities.OrderItem;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
@@ -19,7 +17,8 @@ import java.util.List;
 @Entity
 @Audited
 @Table(name = "menu_item")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class MenuItem {
 

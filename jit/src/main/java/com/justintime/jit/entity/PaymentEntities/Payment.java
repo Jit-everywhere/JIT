@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @Setter
 @Table(name = "payment")
 @NoArgsConstructor
-@AllArgsConstructor
 public class Payment {
 
     @Id

@@ -7,6 +7,7 @@ import com.justintime.jit.entity.Restaurant;
 import com.justintime.jit.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @Audited
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "orders")
 public class Order {
 

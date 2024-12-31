@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "shift_capacity")
 public class ShiftCapacity {
 

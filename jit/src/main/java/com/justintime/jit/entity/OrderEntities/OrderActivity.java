@@ -3,6 +3,7 @@ package com.justintime.jit.entity.OrderEntities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Audited
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "order_activity")
 public class OrderActivity {
     @Id

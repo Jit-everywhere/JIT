@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name="reservation")
 public class Reservation {
 
