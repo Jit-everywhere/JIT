@@ -40,48 +40,48 @@ jobs:
           fi
 
   backend_scan:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    - name: Grant execute permission for Gradlew
-      working-directory: ./jit
-      run: chmod +x ./gradlew
+      - name: Grant execute permission for Gradlew
+        working-directory: ./jit
+        run: chmod +x ./gradlew
 
-    - name: Install Backend Dependencies (Gradle)
-      working-directory: ./jit
-      run: ./gradlew assemble
+      - name: Install Backend Dependencies (Gradle)
+        working-directory: ./jit
+        run: ./gradlew assemble
 
-    - name: Run SpotBugs
-      working-directory: ./jit
-      run: ./gradlew spotbugsMain
+      - name: Run SpotBugs
+        working-directory: ./jit
+        run: ./gradlew spotbugsMain
 
-    # - name: Run OWASP Dependency-Check
-    #   working-directory: ./jit
-    #   run: |
-    #     ./gradlew dependencyCheckAnalyze -Ddependency-check.cache-dir=./cache --info
-    #     ls -R ./jit/build || echo "Build directory not found."
+      # - name: Run OWASP Dependency-Check
+      #   working-directory: ./jit
+      #   run: |
+      #     ./gradlew dependencyCheckAnalyze -Ddependency-check.cache-dir=./cache --info
+      #     ls -R ./jit/build || echo "Build directory not found."
     
-    - name: Debug file structure (Check for application.properties)
-      run: |
-        ls -R ./jit/src/main/resources/ || echo "application.properties file not found."
-
-    - name: Run Basic SQL Injection Pattern Scan
-      working-directory: ./jit
-      run: |
-        if ls ./jit/src/main/resources/application.properties > /dev/null 2>&1; then
-          if grep -rniE "url|username|password" ./jit/src/main/resources/application.properties; then
-            echo "Potentially sensitive information found in application.properties."
+      - name: Debug file structure (Check for application.properties)
+        run: |
+          ls -R ./jit/src/main/resources/ || echo "application.properties file not found."
+    
+      - name: Run Basic SQL Injection Pattern Scan
+        working-directory: ./jit
+        run: |
+          if ls ./jit/src/main/resources/application.properties > /dev/null 2>&1; then
+            if grep -rniE "url|username|password" ./jit/src/main/resources/application.properties; then
+              echo "Potentially sensitive information found in application.properties."
+            else
+              echo "No sensitive patterns found."
+            fi
           else
-            echo "No sensitive patterns found."
+            echo "application.properties file not found."
           fi
-        else
-          echo "application.properties file not found."
-        fi
