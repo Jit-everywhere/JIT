@@ -76,12 +76,13 @@ jobs:
       - name: Run Basic SQL Injection Pattern Scan
         working-directory: ./jit
         run: |
-          if ls ./jit/src/main/resources/application.properties > /dev/null 2>&1; then
+          echo "Checking if application.properties exists..."
+          if [ -f ./src/main/resources/application.properties ]; then
             echo "application.properties found. Checking for patterns."
             # Display contents of the file for debugging
-            cat ./jit/src/main/resources/application.properties
+            cat ./src/main/resources/application.properties
             # Perform the pattern scan
-            if grep -rniE "url|username|password" ./jit/src/main/resources/application.properties; then
+            if grep -rniE "url|username|password" ./src/main/resources/application.properties; then
               echo "Potentially sensitive information found in application.properties."
             else
               echo "No sensitive patterns found."
@@ -89,3 +90,4 @@ jobs:
           else
             echo "application.properties file not found."
           fi
+      
