@@ -32,7 +32,6 @@ jobs:
 
       - name: Basic XSS Pattern Scan (Example)
         working-directory: ./ui
-        # run: grep -rniE "(innerHTML|dangerouslySetInnerHTML)" ./ui/src
         run: |
           if grep -rniE "(innerHTML|dangerouslySetInnerHTML)" ./ui/src; then
             echo "Match found."
@@ -66,9 +65,16 @@ jobs:
 
       - name: Run OWASP Dependency-Check
         working-directory: ./jit
-        run: ./gradlew dependencyCheckAnalyze -Ddependency-check.cache-dir=./cache
+        run: |
+          ./gradlew dependencyCheckAnalyze -Ddependency-check.cache-dir=./cache --info
+          ls -R ./jit/build || echo "Build directory not found."
+
+      - name: Debug OWASP Dependency-Check Output
+        working-directory: ./jit
+        run: ls -R ./build/reports || echo "No reports directory found."
 
       - name: Upload OWASP Dependency-Check Report (HTML)
+        if: success()
         uses: actions/upload-artifact@v3
         with:
           name: owasp-dependency-check-report
@@ -76,4 +82,9 @@ jobs:
 
       - name: Basic SQL Injection Pattern Scan (Example)
         working-directory: ./jit
-        run: grep -rniE "url|username|password" ./jit/src/main/resources/application.properties
+        run: |
+          if grep -rniE "url|username|password" ./jit/src/main/resources/application.properties; then
+            echo "Potentially sensitive information found in application.properties."
+          else
+            echo "No sensitive patterns found."
+          fi
