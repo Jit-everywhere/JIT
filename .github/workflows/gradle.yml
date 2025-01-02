@@ -24,6 +24,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Grant execute permissions for Gradlew
+      working-directory: ./jit
       run: chmod +x ./gradlew
 
 
