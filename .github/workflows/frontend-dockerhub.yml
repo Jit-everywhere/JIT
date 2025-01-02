@@ -24,7 +24,6 @@ jobs:
       - name: Install Dependencies and Build
         working-directory: ./ui
         run: |
-          cd frontend
           npm install
           npm run build
 
