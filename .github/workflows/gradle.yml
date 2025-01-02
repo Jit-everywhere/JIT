@@ -47,5 +47,5 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - run: |
-        docker tag my-java-app:${{ github.sha }} my-dockerhub-username/my-java-app:latest
-        docker push my-dockerhub-username/my-java-app:latest
+        docker tag my-java-app:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/my-java-app:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/my-java-app:latest
