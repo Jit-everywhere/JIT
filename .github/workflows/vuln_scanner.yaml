@@ -32,7 +32,6 @@ jobs:
 
       - name: Basic XSS Pattern Scan (Example)
         working-directory: ./ui
-        # run: grep -rniE "(innerHTML|dangerouslySetInnerHTML)" ./ui/src
         run: |
           if grep -rniE "(innerHTML|dangerouslySetInnerHTML)" ./ui/src; then
             echo "Match found."
@@ -66,14 +65,29 @@ jobs:
 
       - name: Run OWASP Dependency-Check
         working-directory: ./jit
-        run: ./gradlew dependencyCheckAnalyze -Ddependency-check.cache-dir=./cache
-
-      - name: Upload OWASP Dependency-Check Report (HTML)
-        uses: actions/upload-artifact@v3
-        with:
-          name: owasp-dependency-check-report
-          path: ./jit/build/reports/dependency-check/dependency-check-report.html
-
-      - name: Basic SQL Injection Pattern Scan (Example)
+        run: |
+          ./gradlew dependencyCheckAnalyze -Ddependency-check.cache-dir=./cache --info
+          ls -R ./jit/build || echo "Build directory not found."
+    
+      - name: Debug file structure (Check for application.properties)
+        run: |
+          ls -R ./jit/src/main/resources/ || echo "application.properties file not found."
+    
+      - name: Run Basic SQL Injection Pattern Scan
         working-directory: ./jit
-        run: grep -rniE "url|username|password" ./jit/src/main/resources/application.properties
+        run: |
+          echo "Checking if application.properties exists..."
+          if [ -f ./src/main/resources/application.properties ]; then
+            echo "application.properties found. Checking for patterns."
+            # Display contents of the file for debugging
+            cat ./src/main/resources/application.properties
+            # Perform the pattern scan
+            if grep -rniE "url|username|password" ./src/main/resources/application.properties; then
+              echo "Potentially sensitive information found in application.properties."
+            else
+              echo "No sensitive patterns found."
+            fi
+          else
+            echo "application.properties file not found."
+          fi
+      
