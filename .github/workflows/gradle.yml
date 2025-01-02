@@ -25,15 +25,18 @@ jobs:
 
     # Build the application using Gradle
     - name: Build with Gradle
+      working-directory: ./jit
       run: ./gradlew build
 
     # Build Docker image
     - name: Build Docker image
+      working-directory: ./jit
       run: |
         docker build -t my-java-app:${{ github.sha }} .
     
     # Push Docker image to Docker Hub (or another registry)
     - name: Push Docker image
+      working-directory: ./jit
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
