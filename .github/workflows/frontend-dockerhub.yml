@@ -36,7 +36,7 @@ jobs:
 
       # Build and push Docker image
       - name: Build and Push Docker Image
+        working-directory: ./ui
         run: |
-          cd frontend
           docker build -t ${{ secrets.DOCKER_USERNAME }}/nextjs-frontend:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/nextjs-frontend:latest
