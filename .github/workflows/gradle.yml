@@ -2,7 +2,7 @@ name: Build and Publish Docker Image
 
 on:
   push:
-    branches: [ "*" ]
+    branches-ignore: []  # This ensures no branches are ignored
 
 jobs:
   build:
@@ -49,3 +49,6 @@ jobs:
     - run: |
         docker tag my-java-app:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/my-java-app:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/my-java-app:latest
+
+    - name: Logout from Docker Hub
+      run: docker logout
